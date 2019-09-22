@@ -1,6 +1,8 @@
 extern crate clap;
 use clap::{Arg, App};
 
+mod parser;
+
 fn main() {
     let matches = App::new("Streamlib")
         .version("0.1")
