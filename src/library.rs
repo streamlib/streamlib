@@ -5,6 +5,7 @@ use std::collections::BTreeMap;
 use serde::Deserialize;
 
 use super::utils;
+use std::iter::Filter;
 
 #[derive(Clone, Deserialize, Debug)]
 pub struct Entry {
@@ -33,11 +34,9 @@ impl Library {
         Library::from_str(tomlstr.as_str())
     }
 
-    // pub fn search(self, q: &str) -> Iterator<&Entry> {
-    //     self.entries.iter()
-    //         // .filter(|e| e.name.as_ref().unwrap_or(&String::new()).contains(q))
-    //         // .collect()
-    // }
+    pub fn search(self, q: &str) -> Vec<&Entry> {
+        self.entries.iter().filter(|e| e.name.unwrap_or(String::new()).contains(q)).collect()
+    }
 }
 
 #[cfg(test)]
