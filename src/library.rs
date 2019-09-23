@@ -33,10 +33,6 @@ impl Library {
         let tomlstr = utils::open_file(filename);
         Library::from_str(tomlstr.as_str())
     }
-
-    pub fn search(self, q: &str) -> Vec<&Entry> {
-        self.entries.iter().filter(|e| e.name.unwrap_or(String::new()).contains(q)).collect()
-    }
 }
 
 #[cfg(test)]
@@ -59,5 +55,13 @@ mod tests {
         let lib = Library::from_str(TEST_LIB);
         assert_eq!(lib.entries[0].name, Some(String::from("Groove Salad")));
         assert_eq!(lib.entries[1].url, String::from("http://somafm.com/secretagent.pls"));
+    }
+
+    #[test]
+    fn test_search() {
+        let lib = Library::from_str(TEST_LIB);
+        for e in lib.entries {
+            assert_eq!(e.url.starts_with("http"), true);
+        }
     }
 }
