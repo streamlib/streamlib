@@ -23,5 +23,5 @@ fn main() {
         .get_matches();
 
     let lib = Library::from_file(matches.value_of("library").unwrap());
-    println!("{}", lib.entries.get("groovesalad").unwrap().url);
+    println!("{}", lib.entries[0].url);
 }

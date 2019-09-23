@@ -6,7 +6,7 @@ use serde::Deserialize;
 
 use super::utils;
 
-#[derive(Deserialize, Debug)]
+#[derive(Clone, Deserialize, Debug)]
 pub struct Entry {
     name: Option<String>,
     description: Option<String>,
@@ -17,12 +17,13 @@ pub struct Entry {
 pub type LibraryEntries = BTreeMap<String, Entry>;
 
 pub struct Library {
-    pub entries: LibraryEntries
+    pub entries: Vec<Entry>
 }
 
 impl Library {
     pub fn from_str(s: &str) -> Self {
-        let entries: LibraryEntries = toml::from_str(s).unwrap();
+        let entmap: LibraryEntries = toml::from_str(s).unwrap();
+        let entries: Vec<Entry> = entmap.values().cloned().collect();
         Library {
             entries
         }
@@ -31,6 +32,12 @@ impl Library {
         let tomlstr = utils::open_file(filename);
         Library::from_str(tomlstr.as_str())
     }
+
+    // pub fn search(self, q: &str) -> Iterator<&Entry> {
+    //     self.entries.iter()
+    //         // .filter(|e| e.name.as_ref().unwrap_or(&String::new()).contains(q))
+    //         // .collect()
+    // }
 }
 
 #[cfg(test)]
@@ -51,7 +58,7 @@ mod tests {
     #[test]
     fn test_struct_parse() {
         let lib = Library::from_str(TEST_LIB);
-        assert_eq!(lib.entries.get("groovesalad").unwrap().name, Some(String::from("Groove Salad")));
-        assert_eq!(lib.entries.get("secretagent").unwrap().url, String::from("http://somafm.com/secretagent.pls"));
+        assert_eq!(lib.entries[0].name, Some(String::from("Groove Salad")));
+        assert_eq!(lib.entries[1].url, String::from("http://somafm.com/secretagent.pls"));
     }
 }
