@@ -1,7 +1,10 @@
 extern crate clap;
 use clap::{Arg, App};
 
-mod parser;
+mod library;
+mod utils;
+
+use library::Library;
 
 fn main() {
     let matches = App::new("Streamlib")
@@ -19,6 +22,6 @@ fn main() {
             .takes_value(true))
         .get_matches();
 
-    println!("{}", matches.value_of("player").unwrap_or("mpv"));
-    println!("{}", matches.value_of("library").unwrap());
+    let lib = Library::from_file(matches.value_of("library").unwrap());
+    println!("{}", lib.entries.get("groovesalad").unwrap().url);
 }
