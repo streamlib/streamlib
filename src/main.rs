@@ -1,9 +1,12 @@
 extern crate clap;
+
 use clap::{Arg, App};
 
+mod cli;
 mod library;
 mod utils;
 
+use cli::Selector;
 use library::Library;
 
 fn main() {
@@ -23,5 +26,7 @@ fn main() {
         .get_matches();
 
     let lib = Library::from_file(matches.value_of("library").unwrap());
-    println!("{}", lib.entries[0].url);
+    let url = Selector::new().select();
+
+    println!("{}", url);
 }
