@@ -7,8 +7,6 @@ Streamlib is a meta-player for video streams. The specification defines a standa
 Streamlib files are [TOML](https://github.com/toml-lang/toml) files that adhere to the following specification, which is given by example:
 
 ```toml
-title = "SomaFm Radio Stations"
-
 [groovesalad]
 name = "Groove Salad"
 description = "A nicely chilled plate of ambient/downtempo beats and grooves"
