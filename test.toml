@@ -1,8 +1,8 @@
 [channel13]
 url = "https://besttv1.aoslive.it.best-tv.com/reshet/studio/index.m3u8"
-http_header = "Referer: https://besttv1.aoslive.it.best-tv.com/"
+http_headers = ["Referer: https://besttv1.aoslive.it.best-tv.com/"]
 
-[aljazeera]
+[zaljazeera]
 url = "http://aljazeera-eng-apple-live.adaptive.level3.net/apple/aljazeera/english/appleman.m3u8"
 
 [groovesalad]
