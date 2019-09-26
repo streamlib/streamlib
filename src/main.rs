@@ -28,6 +28,6 @@ fn main() {
         .get_matches();
 
     let lib = Library::from_file(matches.value_of("library").unwrap());
-    let url = Selector::new(lib).select();
-    let _pl = Player::new(url).play();
+    let entry = Selector::new(lib).select();
+    let _pl = Player::new(entry).play();
 }

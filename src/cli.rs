@@ -1,4 +1,4 @@
-use super::library::Library;
+use super::library::{Entry, Library};
 
 pub struct Selector {
     lib: Library
@@ -11,7 +11,7 @@ impl Selector {
         }
     }
 
-    pub fn select(self) -> String {
-        self.lib.entries[0].url.clone()
+    pub fn select(self) -> Entry {
+        self.lib.entries[0].clone()
     }
 }

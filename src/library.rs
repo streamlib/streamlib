@@ -11,7 +11,8 @@ pub struct Entry {
     name: Option<String>,
     description: Option<String>,
     pub url: String,
-    tags: Option<Vec<String>>
+    tags: Option<Vec<String>>,
+    pub http_header: Option<String>
 }
 
 pub type LibraryEntries = BTreeMap<String, Entry>;
@@ -44,6 +45,7 @@ mod tests {
         description = "A nicely chilled plate of ambient/downtempo beats and grooves"
         url = "http://somafm.com/groovesalad.pls"
         tags = ["somafm", "radio", "ambient", "groove"]
+        http_header = "Header-Name: value123"
 
         [secretagent]
         url = "http://somafm.com/secretagent.pls"

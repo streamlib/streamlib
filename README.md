@@ -12,6 +12,7 @@ name = "Groove Salad"
 description = "A nicely chilled plate of ambient/downtempo beats and grooves"
 url = "http://somafm.com/groovesalad.pls"
 tags = ["somafm", "radio", "ambient", "groove"]
+http_header = "User-Agent: foo"
 ```
 
 The only real requirement in a Streamlib file is to have one or more top-level tables which at bare minimum includes a `url` key:
