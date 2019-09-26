@@ -5,7 +5,7 @@ pub struct Selector {
 }
 
 impl Selector {
-    pub fn new(lib: Library) -> Self {
+    pub fn from(lib: Library) -> Self {
         Selector {
             lib
         }

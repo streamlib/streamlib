@@ -10,7 +10,7 @@ pub struct Player {
 }
 
 impl Player {
-    pub fn new(entry: Entry) -> Self {
+    pub fn from(entry: Entry) -> Self {
         Player {
             url: entry.url,
             headers: entry.http_headers.unwrap_or(vec![]),
