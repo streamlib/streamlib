@@ -5,7 +5,6 @@ use std::collections::BTreeMap;
 use serde::Deserialize;
 
 use super::utils;
-use std::iter::Filter;
 
 #[derive(Clone, Deserialize, Debug)]
 pub struct Entry {

@@ -25,7 +25,7 @@ fn main() {
             .takes_value(true))
         .get_matches();
 
-    let lib = Library::from_file(matches.value_of("library").unwrap());
+    let _lib = Library::from_file(matches.value_of("library").unwrap());
     let url = Selector::new().select();
 
     println!("{}", url);
