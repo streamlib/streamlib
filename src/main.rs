@@ -4,10 +4,12 @@ use clap::{Arg, App};
 
 mod cli;
 mod library;
+mod player;
 mod utils;
 
 use cli::Selector;
 use library::Library;
+use player::Player;
 
 fn main() {
     let matches = App::new("Streamlib")
@@ -27,6 +29,5 @@ fn main() {
 
     let lib = Library::from_file(matches.value_of("library").unwrap());
     let url = Selector::new(lib).select();
-
-    println!("{}", url);
+    let _pl = Player::new(url).play();
 }

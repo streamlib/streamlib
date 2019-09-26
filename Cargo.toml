@@ -8,6 +8,7 @@ edition = "2018"
 
 [dependencies]
 clap = "2.33.0"
+duct = "0.13.0"
 termion = "1.5.3"
 toml = "0.5.3"
 serde = { version = "1.0.101", features = ["derive"] }
