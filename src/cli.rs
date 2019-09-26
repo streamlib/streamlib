@@ -1,15 +1,17 @@
+use super::library::Library;
 
 pub struct Selector {
-
+    lib: Library
 }
 
 impl Selector {
-    pub fn new() -> Self {
+    pub fn new(lib: Library) -> Self {
         Selector {
+            lib
         }
     }
 
     pub fn select(self) -> String {
-        String::from("http://somafm.com/groovesalad.pls")
+        self.lib.entries[0].url.clone()
     }
 }
