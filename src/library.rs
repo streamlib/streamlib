@@ -1,6 +1,8 @@
-extern crate toml;
+extern crate glob;
 extern crate serde;
+extern crate toml;
 
+use glob::glob;
 use std::collections::BTreeMap;
 use serde::Deserialize;
 
@@ -29,9 +31,23 @@ impl Library {
             entries
         }
     }
+
     pub fn from_file(filename: &str) -> Self {
         let tomlstr = utils::open_file(filename);
         Library::from_str(tomlstr.as_str())
+    }
+
+    pub fn from_directory(dir: &str) -> Self {
+        let mut lib = Library {
+            entries: vec![]
+        };
+
+        for entry in glob(dir).expect("Failed to read glob pattern") {
+            let e = entry.unwrap();
+            let mut entries = Self::from_file(e.to_str().unwrap()).entries;
+            lib.entries.append(&mut entries);
+        }
+        lib
     }
 }
 
@@ -64,5 +80,11 @@ mod tests {
         for e in lib.entries {
             assert_eq!(e.url.starts_with("http"), true);
         }
+    }
+
+    #[test]
+    fn test_build_dir() {
+        let lib = Library::from_directory("library/**/*.toml");
+        assert_eq!(lib.entries.len() > 0, true)
     }
 }

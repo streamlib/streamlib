@@ -12,14 +12,15 @@ use library::Library;
 use player::Player;
 
 fn main() {
-    let matches = App::new("Streamlib")
+    let _matches = App::new("Streamlib")
         .version("0.1")
         .author("Yuval Adam")
         .about("A video stream meta-player and specification")
         .arg(Arg::with_name("library")
+            .short("l")
+            .long("library")
             .help("TOML file library")
-            .required(true)
-            .index(1))
+            .takes_value(true))
         .arg(Arg::with_name("player")
             .short("p")
             .long("player")
@@ -27,7 +28,7 @@ fn main() {
             .takes_value(true))
         .get_matches();
 
-    let lib = Library::from_file(matches.value_of("library").unwrap());
+    let lib = Library::from_directory("library/**/*.toml");
     let entry = Selector::from(lib).select();
     let _pl = Player::from(entry).play();
 }
