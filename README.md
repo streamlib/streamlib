@@ -1,6 +1,6 @@
 # Streamlib
 
-Streamlib is a meta-player for video streams. The specification defines a standard for indexing video stream URLs, and the CLI enables quick searching of those streams. Once a stream is chosen for viewing, it is passed on to a standard stream player, defaulting to [mpv](https://mpv.io/).
+Streamlib is a meta-player for video streams. The specification defines a standard for indexing video stream URLs, and the CLI enables quick searching of those streams. Once a stream is chosen for viewing, it is passed on to a standard media player, defaulting to [mpv](https://mpv.io/) which is currently the only supported player.
 
 ## Usage
 
@@ -31,14 +31,14 @@ tags = ["somafm", "radio", "ambient", "groove"]
 http_header = "User-Agent: foo"
 ```
 
-The only real requirement in a Streamlib file is to have one or more top-level tables which at bare minimum includes a `url` key:
+The only real requirement in a streamlib file is to have one or more top-level tables which at bare minimum includes a `url` key:
 
 ```toml
 [secretagent]
 url = "http://somafm.com/secretagent.pls"
 ```
 
-All the other keys are used for indexing and querying upon playback, but are essentially optional. The top-level `title` string is used to hold metadata on the file itself.
+All the other keys are used for indexing and querying upon playback, but are essentially optional.
 
 Further fields might be added later on to the specification.
 
