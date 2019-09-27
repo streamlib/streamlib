@@ -83,7 +83,7 @@ mod tests {
     }
 
     #[test]
-    fn test_build_dir() {
+    fn test_build_library_dir() {
         let lib = Library::from_directory("library/**/*.toml");
         assert_eq!(lib.entries.len() > 0, true)
     }
