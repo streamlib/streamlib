@@ -1,0 +1,7 @@
+[aljazeera-ar]
+name = "Al-Jazeera"
+url = "http://aljazeera-ara-apple-live.adaptive.level3.net/apple/aljazeera/arabic/160.m3u8"
+
+[aljazeera-eng]
+name = "Al-Jazeera English"
+url = "http://aljazeera-eng-apple-live.adaptive.level3.net/apple/aljazeera/english/appleman.m3u8"
