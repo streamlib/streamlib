@@ -47,6 +47,9 @@ impl Library {
             let mut entries = Self::from_file(e.to_str().unwrap()).entries;
             lib.entries.append(&mut entries);
         }
+
+        println!("Loaded {} stream entries...", lib.entries.len());
+
         lib
     }
 }
