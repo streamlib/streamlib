@@ -1,0 +1,222 @@
+[7soul]
+name = "Seven Inch Soul"
+description = "Vintage soul tracks from the original 45 RPM vinyl."
+url = "https://api.somafm.com/7soul130.pls"
+tags = ["radio", "somafm"]
+
+[bagel]
+name = "BAGeL Radio"
+description = "What alternative rock radio should sound like. [explicit]"
+url = "https://api.somafm.com/bagel130.pls"
+tags = ["radio", "somafm"]
+
+[beatblender]
+name = "Beat Blender"
+description = "A late night blend of deep-house and downtempo chill."
+url = "https://api.somafm.com/beatblender130.pls"
+tags = ["radio", "somafm"]
+
+[bootliquor]
+name = "Boot Liquor"
+description = "Americana Roots music for Cowhands, Cowpokes and Cowtippers"
+url = "https://api.somafm.com/bootliquor320.pls"
+tags = ["radio", "somafm"]
+
+[brfm]
+name = "Black Rock FM"
+description = "From the Playa to the world, for the annual Burning Man festival."
+url = "https://api.somafm.com/brfm130.pls"
+tags = ["radio", "somafm"]
+
+[christmas]
+name = "Christmas Lounge"
+description = "Chilled holiday grooves and classic winter lounge tracks. (Kid and Parent safe!) "
+url = "https://api.somafm.com/christmas256.pls"
+tags = ["radio", "somafm"]
+
+[cliqhop]
+name = "cliqhop idm"
+description = "Blips'n'beeps backed mostly w/beats. Intelligent Dance Music."
+url = "https://api.somafm.com/cliqhop256.pls"
+tags = ["radio", "somafm"]
+
+[covers]
+name = "Covers"
+description = "Just covers. Songs you know by artists you don't. We've got you covered. "
+url = "https://api.somafm.com/covers130.pls"
+tags = ["radio", "somafm"]
+
+[deepspaceone]
+name = "Deep Space One"
+description = "Deep ambient electronic, experimental and space music. For inner and outer space exploration."
+url = "https://api.somafm.com/deepspaceone130.pls"
+tags = ["radio", "somafm"]
+
+[defcon]
+name = "DEF CON Radio"
+description = "Music for Hacking. The DEF CON Year-Round Channel."
+url = "https://api.somafm.com/defcon256.pls"
+tags = ["radio", "somafm"]
+
+[digitalis]
+name = "Digitalis"
+description = "Digitally affected analog rock to calm the agitated heart."
+url = "https://api.somafm.com/digitalis130.pls"
+tags = ["radio", "somafm"]
+
+[dronezone]
+name = "Drone Zone"
+description = "Served best chilled, safe with most medications. Atmospheric textures with minimal beats."
+url = "https://api.somafm.com/dronezone256.pls"
+tags = ["radio", "somafm"]
+
+[dubstep]
+name = "Dub Step Beyond"
+description = "Dubstep, Dub and Deep Bass. May damage speakers at high volume."
+url = "https://api.somafm.com/dubstep256.pls"
+tags = ["radio", "somafm"]
+
+[fluid]
+name = "Fluid"
+description = "Drown in the electronic sound of instrumental hiphop, future soul and liquid trap."
+url = "https://api.somafm.com/fluid130.pls"
+tags = ["radio", "somafm"]
+
+[folkfwd]
+name = "Folk Forward"
+description = "Indie Folk, Alt-folk and the occasional folk classics. "
+url = "https://api.somafm.com/folkfwd130.pls"
+tags = ["radio", "somafm"]
+
+[groovesalad]
+name = "Groove Salad"
+description = "A nicely chilled plate of ambient/downtempo beats and grooves."
+url = "https://api.somafm.com/groovesalad256.pls"
+tags = ["radio", "somafm"]
+
+[gsclassic]
+name = "Groove Salad Classic"
+description = "The classic (early 2000s) version of a nicely chilled plate of ambient/downtempo beats and grooves."
+url = "https://api.somafm.com/gsclassic130.pls"
+tags = ["radio", "somafm"]
+
+[illstreet]
+name = "Illinois Street Lounge"
+description = "Classic bachelor pad, playful exotica and vintage music of tomorrow."
+url = "https://api.somafm.com/illstreet130.pls"
+tags = ["radio", "somafm"]
+
+[indiepop]
+name = "Indie Pop Rocks!"
+description = "New and classic favorite indie pop tracks."
+url = "https://api.somafm.com/indiepop130.pls"
+tags = ["radio", "somafm"]
+
+[jollysoul]
+name = "Jolly Ol' Soul"
+description = "Where we cut right to the soul of the season."
+url = "https://api.somafm.com/jollysoul130.pls"
+tags = ["radio", "somafm"]
+
+[live]
+name = "SomaFM Live"
+description = "Special Live Events and rebroadcasts of past live events"
+url = "https://api.somafm.com/live130.pls"
+tags = ["radio", "somafm"]
+
+[lush]
+name = "Lush"
+description = "Sensuous and mellow vocals, mostly female, with an electronic influence."
+url = "https://api.somafm.com/lush130.pls"
+tags = ["radio", "somafm"]
+
+[missioncontrol]
+name = "Mission Control"
+description = "Celebrating NASA and Space Explorers everywhere."
+url = "https://api.somafm.com/missioncontrol130.pls"
+tags = ["radio", "somafm"]
+
+[poptron]
+name = "PopTron"
+description = "Electropop and indie dance rock with sparkle and pop."
+url = "https://api.somafm.com/poptron130.pls"
+tags = ["radio", "somafm"]
+
+[secretagent]
+name = "Secret Agent"
+description = "The soundtrack for your stylish, mysterious, dangerous life. For Spies and PIs too!"
+url = "https://api.somafm.com/secretagent130.pls"
+tags = ["radio", "somafm"]
+
+[seventies]
+name = "Left Coast 70s"
+description = "Mellow album rock from the Seventies. Yacht not required."
+url = "https://api.somafm.com/seventies320.pls"
+tags = ["radio", "somafm"]
+
+[sf1033]
+name = "SF 10-33"
+description = "Ambient music mixed with the sounds of San Francisco public safety radio traffic."
+url = "https://api.somafm.com/sf1033130.pls"
+tags = ["radio", "somafm"]
+
+[sonicuniverse]
+name = "Sonic Universe"
+description = "Transcending the world of jazz with eclectic, avant-garde takes on tradition."
+url = "https://api.somafm.com/sonicuniverse256.pls"
+tags = ["radio", "somafm"]
+
+[spacestation]
+name = "Space Station Soma"
+description = "Tune in, turn on, space out. Spaced-out ambient and mid-tempo electronica."
+url = "https://api.somafm.com/spacestation130.pls"
+tags = ["radio", "somafm"]
+
+[specials]
+name = "SomaFM Specials"
+description = "Special, seasonal and experimental broadcasts"
+url = "https://api.somafm.com/specials130.pls"
+tags = ["radio", "somafm"]
+
+[suburbsofgoa]
+name = "Suburbs of Goa"
+description = "Desi-influenced Asian world beats and beyond."
+url = "https://api.somafm.com/suburbsofgoa130.pls"
+tags = ["radio", "somafm"]
+
+[thetrip]
+name = "The Trip"
+description = "Progressive house / trance. Tip top tunes."
+url = "https://api.somafm.com/thetrip130.pls"
+tags = ["radio", "somafm"]
+
+[thistle]
+name = "ThistleRadio"
+description = "Exploring music from Celtic roots and branches"
+url = "https://api.somafm.com/thistle130.pls"
+tags = ["radio", "somafm"]
+
+[u80s]
+name = "Underground 80s"
+description = "Early 80s UK Synthpop and a bit of New Wave."
+url = "https://api.somafm.com/u80s256.pls"
+tags = ["radio", "somafm"]
+
+[xmasinfrisko]
+name = "Xmas in Frisko"
+description = "SomaFM's wacky and eclectic holiday mix. Not for the easily offended. "
+url = "https://api.somafm.com/xmasinfrisko130.pls"
+tags = ["radio", "somafm"]
+
+[xmasrocks]
+name = "Christmas Rocks!"
+description = "Have your self an indie/alternative holiday season!"
+url = "https://api.somafm.com/xmasrocks130.pls"
+tags = ["radio", "somafm"]
+
+[metal]
+name = "Metal Detector"
+description = "From black to doom, prog to sludge, thrash to post, stoner to crossover, punk to industrial."
+url = "https://api.somafm.com/metal130.pls"
+tags = ["radio", "somafm"]
+
