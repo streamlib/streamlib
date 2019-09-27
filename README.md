@@ -2,9 +2,25 @@
 
 Streamlib is a meta-player for video streams. The specification defines a standard for indexing video stream URLs, and the CLI enables quick searching of those streams. Once a stream is chosen for viewing, it is passed on to a standard stream player, defaulting to [mpv](https://mpv.io/).
 
-## Specification
+## Usage
 
-Streamlib files are [TOML](https://github.com/toml-lang/toml) files that adhere to the following specification, which is given by example:
+Streamlib is still a work-in-progress. Running it requires checking out the git repository and then running:
+
+```bash
+$ cargo run -- "Groove Salad"
+```
+
+Upcoming versions will include a console-based interactive interface and better library management.
+
+### Testing
+
+```bash
+$ cargo test
+```
+
+## Library Specification
+
+Streamlib library files are nothing more than [TOML](https://github.com/toml-lang/toml) files which adhere to the following specification, given by example:
 
 ```toml
 [groovesalad]
@@ -26,15 +42,4 @@ All the other keys are used for indexing and querying upon playback, but are ess
 
 Further fields might be added later on to the specification.
 
-Currently all library TOML files are located under the [library](library) directory;
-
-## CLI
-
-The `streamlib` CLI tool is the main interface for users, allowing to search for various streams according to their metadata and pass their respective URLs to the media player.
-
-## Dev
-
-```bash
-$ cargo build
-$ cargo run
-```
+Currently all library TOML files are located under the [library](library) directory.
