@@ -12,10 +12,14 @@ use library::Library;
 use player::Player;
 
 fn main() {
-    let _matches = App::new("Streamlib")
+    let matches = App::new("Streamlib")
         .version(crate_version!())
         .author(crate_authors!())
         .about("A video stream meta-player and specification")
+        .arg(Arg::with_name("query")
+            .help("TOML file library")
+            .required(true)
+            .index(1))
         .arg(Arg::with_name("library")
             .short("l")
             .long("library")
@@ -29,6 +33,12 @@ fn main() {
         .get_matches();
 
     let lib = Library::from_directory("library/**/*.toml");
-    let entry = Selector::from(lib).select();
-    let _pl = Player::from(entry).play();
+    let q = matches.value_of("query").unwrap();
+    let entry = Selector::from(lib).select(q);
+    match entry {
+        Some(e) => Player::from(e).play(),
+        None => {
+            println!("No match found...")
+        }
+    }
 }

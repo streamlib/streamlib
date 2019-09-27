@@ -10,10 +10,10 @@ use super::utils;
 
 #[derive(Clone, Deserialize, Debug)]
 pub struct Entry {
-    name: Option<String>,
-    description: Option<String>,
+    pub name: Option<String>,
+    pub description: Option<String>,
     pub url: String,
-    tags: Option<Vec<String>>,
+    pub tags: Option<Vec<String>>,
     pub http_headers: Option<Vec<String>>
 }
 
