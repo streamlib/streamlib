@@ -7,10 +7,10 @@ Streamlib is a meta-player for video streams. The specification defines a standa
 Streamlib is still a work-in-progress. Running it requires checking out the git repository and then running:
 
 ```bash
-$ cargo run -- "Groove Salad"
+$ cargo run -- groove
 ```
 
-Upcoming versions will include a console-based interactive interface and better library management.
+The single argument will run a case-insensitive match against all known metadata and pick the first matching stream. Upcoming versions will include a console-based interactive interface and better library management.
 
 ### Testing
 
