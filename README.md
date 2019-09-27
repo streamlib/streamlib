@@ -26,6 +26,8 @@ All the other keys are used for indexing and querying upon playback, but are ess
 
 Further fields might be added later on to the specification.
 
+Currently all library TOML files are located under the [library](library) directory;
+
 ## CLI
 
 The `streamlib` CLI tool is the main interface for users, allowing to search for various streams according to their metadata and pass their respective URLs to the media player.
