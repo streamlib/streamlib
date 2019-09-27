@@ -1,6 +1,6 @@
 extern crate clap;
 
-use clap::{Arg, App};
+use clap::{Arg, App, crate_authors, crate_version};
 
 mod cli;
 mod library;
@@ -13,8 +13,8 @@ use player::Player;
 
 fn main() {
     let _matches = App::new("Streamlib")
-        .version("0.1")
-        .author("Yuval Adam")
+        .version(crate_version!())
+        .author(crate_authors!())
         .about("A video stream meta-player and specification")
         .arg(Arg::with_name("library")
             .short("l")
