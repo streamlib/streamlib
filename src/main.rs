@@ -23,7 +23,7 @@ fn main() {
             .help("List all library entries")
             )
         .arg(Arg::with_name("query")
-            .help("TOML file library")
+            .help("Stream name/description/URL to query")
             .required_unless("list")
             .index(1))
         .arg(Arg::with_name("library")
