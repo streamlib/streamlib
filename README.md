@@ -12,6 +12,12 @@ $ cargo run -- groove
 
 The single argument will run a case-insensitive match against all known metadata and pick the first matching stream. Upcoming versions will include a console-based interactive interface and better library management.
 
+Entire library can be dumped with the `-L` flag:
+
+```bash
+$ cargo run -- -L
+```
+
 ### Testing
 
 ```bash

@@ -1,4 +1,5 @@
 extern crate clap;
+extern crate termion;
 
 use clap::{Arg, App, crate_authors, crate_version};
 
@@ -16,9 +17,14 @@ fn main() {
         .version(crate_version!())
         .author(crate_authors!())
         .about("A video stream meta-player and specification")
+        .arg(Arg::with_name("list")
+            .short("L")
+            .long("list")
+            .help("List all library entries")
+            )
         .arg(Arg::with_name("query")
             .help("TOML file library")
-            .required(true)
+            .required_unless("list")
             .index(1))
         .arg(Arg::with_name("library")
             .short("l")
@@ -33,8 +39,15 @@ fn main() {
         .get_matches();
 
     let lib = Library::from_directory("library/**/*.toml");
+
+    if matches.is_present("list") {
+        Selector::from(lib).list();
+        return
+    }
+
     let q = matches.value_of("query").unwrap();
     let entry = Selector::from(lib).select(q);
+
     match entry {
         Some(e) => Player::from(e).play(),
         None => {

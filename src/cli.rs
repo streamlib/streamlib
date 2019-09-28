@@ -1,3 +1,5 @@
+use termion::{color, style};
+
 use super::library::{Entry, Library};
 
 pub struct Selector {
@@ -23,5 +25,16 @@ impl Selector {
             }
         }
         None
+    }
+
+    pub fn list(self) {
+        for e in self.lib.entries {
+            let name = e.name.unwrap_or(String::from("(untitled)"));
+            let mut desc = e.description.unwrap_or(String::new());
+            if desc.len() > 0 {
+                desc = format!(" - {}", desc);
+            }
+            println!("{}{}{}{}{}\n\t{}\n", color::Fg(color::Yellow), style::Bold, name, style::Reset, desc, e.url);
+        }
     }
 }
