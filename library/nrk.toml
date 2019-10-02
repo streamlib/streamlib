@@ -5,7 +5,7 @@ url = "http://lyd.nrk.no/nrk_radio_p1_ostlandssendingen_mp3_m"
 tags = ["radio"]
 
 
-[P1]
+[P2]
 name = "NRK P2"
 description = "One of norways main state run radio channels"
 url = "http://lyd.nrk.no/nrk_radio_p2_mp3_m"
