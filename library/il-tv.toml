@@ -7,6 +7,7 @@ name = "Kan hinuhit"
 url = "https://kanlivep2event-i.akamaihd.net/hls/live/747600/747600/master.m3u8"
 
 [channel13]
+name = "Channel 13"
 url = "https://besttv1.aoslive.it.best-tv.com/reshet/studio/index.m3u8"
 http_headers = ["Referer: https://besttv1.aoslive.it.best-tv.com/"]
 
