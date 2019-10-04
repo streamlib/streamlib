@@ -85,10 +85,4 @@ mod tests {
             assert_eq!(e.url.starts_with("http"), true);
         }
     }
-
-    #[test]
-    fn test_build_library_dir() {
-        let lib = Library::from_directory("library");
-        assert_eq!(lib.entries.len() > 0, true)
-    }
 }
