@@ -10,6 +10,7 @@ mod player;
 mod utils;
 
 use cli::Selector;
+use git::Git;
 use library::Library;
 use player::Player;
 
@@ -40,6 +41,7 @@ fn main() {
             .takes_value(true))
         .get_matches();
 
+    let git = Git::new().init();
     let lib = Library::from_directory("library/**/*.toml");
 
     if matches.is_present("list") {

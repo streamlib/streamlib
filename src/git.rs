@@ -1,39 +1,47 @@
 extern crate directories;
 extern crate git2;
 
-use directories::ProjectDirs;
-use git2::{Repository, ResetType, Error};
+use std::fs;
 use std::path::PathBuf;
-use std::fs::create_dir_all;
+use std::time::SystemTime;
 
 const LIBRARY_REPO: &str = "https://github.com/streamlib/library";
 
-struct Git {
-    pub dirs: ProjectDirs,
-    pub repo: Option<Repository>
+pub struct Git {
+    pub path: PathBuf,
+    pub repo: Option<git2::Repository>
 }
 
 impl Git {
 
     pub fn new() -> Self {
+        let dirs = directories::ProjectDirs::from("", "", "streamlib").unwrap();
+        let mut path = PathBuf::from(dirs.config_dir());
+        path.push("library");
+
         Git {
-            dirs: ProjectDirs::from("", "", "streamlib").unwrap(),
+            path: path,
             repo: None
         }
     }
 
-    pub fn init(&mut self) {
-        let mut repo_path = PathBuf::from(self.dirs.config_dir());
-        repo_path.push("library");
+    pub fn init(mut self) {
+        self.open();
+        if self.update_required() {
+            self.update().unwrap();
+        }
+    }
 
-        if !repo_path.exists() {
-            create_dir_all(&repo_path).unwrap();
+    fn open(&mut self) {
+        // open the library git repository, or clone it if it does not exist
+        if !self.path.exists() {
+            fs::create_dir_all(&self.path).unwrap();
         }
 
-        self.repo = match Repository::open(&repo_path) {
+        self.repo = match git2::Repository::open(&self.path) {
             Ok(repo) => Some(repo),
             Err(_e) => {
-                match Repository::clone(LIBRARY_REPO, repo_path) {
+                match git2::Repository::clone(LIBRARY_REPO, &self.path) {
                     Ok(repo) => Some(repo),
                     Err(e) => panic!("failed to open: {}", e),
                 }
@@ -41,7 +49,19 @@ impl Git {
         };
     }
 
-    pub fn update(self) -> Result<(), Error> {
+    fn update_required(&self) -> bool {
+        // calculate if an update is required by checking the modified timestamp
+        // on the .git/FETCH_HEAD file, which reflects when the last fetch occured
+        let mut file = PathBuf::from(&self.path);
+        file.push(".git");
+        file.push("FETCH_HEAD");
+        let modified = fs::metadata(file).unwrap().modified().unwrap();
+        let now = SystemTime::now();
+        let secs = now.duration_since(modified).unwrap().as_secs();
+        secs > (60 * 60 * 24 * 7)
+    }
+
+    fn update(self) -> Result<(), git2::Error> {
         // pull implementation (fetch heads, reset hard) borrowed from
         // https://github.com/rust-lang/crates.io/blob/6a44062edc2ec99e30a7770bbcc97d9cec110dd1/src/git.rs#L123-L128
         let repo = self.repo.unwrap();
@@ -49,7 +69,7 @@ impl Git {
         origin.fetch(&["refs/heads/*:refs/heads/*"], None, None)?;
         let head = repo.head().unwrap().target().unwrap();
         let obj = repo.find_object(head, None)?;
-        repo.reset(&obj, ResetType::Hard, None)?;
+        repo.reset(&obj, git2::ResetType::Hard, None)?;
         Ok(())
     }
 
@@ -63,7 +83,9 @@ mod tests {
     #[test]
     fn test_git_build_path() {
         let mut g = Git::new();
-        g.init();
-        g.update().unwrap();
+        g.open();
+        if g.update_required() {
+            g.update().unwrap();
+        }
     }
 }
