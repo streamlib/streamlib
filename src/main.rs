@@ -4,6 +4,7 @@ extern crate termion;
 use clap::{Arg, App, crate_authors, crate_version};
 
 mod cli;
+mod git;
 mod library;
 mod player;
 mod utils;
