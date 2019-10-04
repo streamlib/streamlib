@@ -31,18 +31,28 @@ fn main() {
         .arg(Arg::with_name("library")
             .short("l")
             .long("library")
-            .help("TOML file library")
+            .help("Path to custom TOML file library")
             .takes_value(true))
         .arg(Arg::with_name("player")
             .short("p")
             .long("player")
-            .default_value("mpv")
-            .help("Media player to run, defaults to `mpv`")
+            .help("Name of custom player executable")
             .takes_value(true))
+        .arg(Arg::with_name("update")
+            .short("u")
+            .long("update")
+            .help("Force a library update"))
         .get_matches();
 
-    let git = Git::new().init();
-    let lib = Library::from_directory("library/**/*.toml");
+    let libpath = match matches.value_of("library") {
+        Some(library) => String::from(library),
+        None => {
+            let force_update = matches.is_present("update");
+            let git = Git::new(force_update);
+            git.get_path()
+        }
+    };
+    let lib = Library::from_directory(libpath.as_str());
 
     if matches.is_present("list") {
         Selector::from(lib).list();
@@ -50,7 +60,7 @@ fn main() {
     }
 
     let q = matches.value_of("query").unwrap();
-    let player = matches.value_of("player").unwrap();
+    let player = matches.value_of("player").unwrap_or("mpv");
     let entry = Selector::from(lib).select(q);
 
 

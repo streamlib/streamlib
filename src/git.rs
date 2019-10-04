@@ -14,22 +14,29 @@ pub struct Git {
 
 impl Git {
 
-    pub fn new() -> Self {
+    pub fn new(force_update: bool) -> Self {
         let dirs = directories::ProjectDirs::from("", "", "streamlib").unwrap();
         let mut path = PathBuf::from(dirs.config_dir());
         path.push("library");
 
-        Git {
+        let mut git = Git {
             path: path,
             repo: None
+        };
+
+        git.init(force_update);
+        git
+    }
+
+    pub fn init(&mut self, force_update: bool) {
+        self.open();
+        if force_update || self.update_required() {
+            self.update().unwrap();
         }
     }
 
-    pub fn init(mut self) {
-        self.open();
-        if self.update_required() {
-            self.update().unwrap();
-        }
+    pub fn get_path(&self) -> String {
+        String::from(self.path.as_path().to_str().unwrap())
     }
 
     fn open(&mut self) {
@@ -61,10 +68,10 @@ impl Git {
         secs > (60 * 60 * 24 * 7)
     }
 
-    fn update(self) -> Result<(), git2::Error> {
+    fn update(&self) -> Result<(), git2::Error> {
         // pull implementation (fetch heads, reset hard) borrowed from
         // https://github.com/rust-lang/crates.io/blob/6a44062edc2ec99e30a7770bbcc97d9cec110dd1/src/git.rs#L123-L128
-        let repo = self.repo.unwrap();
+        let repo = self.repo.as_ref().unwrap();
         let mut origin = repo.find_remote("origin")?;
         origin.fetch(&["refs/heads/*:refs/heads/*"], None, None)?;
         let head = repo.head().unwrap().target().unwrap();
@@ -82,10 +89,6 @@ mod tests {
 
     #[test]
     fn test_git_build_path() {
-        let mut g = Git::new();
-        g.open();
-        if g.update_required() {
-            g.update().unwrap();
-        }
+        let _git = Git::new(false);
     }
 }

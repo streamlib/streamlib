@@ -42,14 +42,15 @@ impl Library {
             entries: vec![]
         };
 
-        for entry in glob(dir).expect("Failed to read glob pattern") {
+        println!("{}", dir);
+        let dirglob = format!("{}/**/*.toml", dir);
+        for entry in glob(dirglob.as_str()).expect("Failed to read glob pattern") {
             let e = entry.unwrap();
             let mut entries = Self::from_file(e.to_str().unwrap()).entries;
             lib.entries.append(&mut entries);
         }
 
         println!("Loaded {} stream entries...", lib.entries.len());
-
         lib
     }
 }
@@ -87,7 +88,7 @@ mod tests {
 
     #[test]
     fn test_build_library_dir() {
-        let lib = Library::from_directory("library/**/*.toml");
+        let lib = Library::from_directory("library");
         assert_eq!(lib.entries.len() > 0, true)
     }
 }
