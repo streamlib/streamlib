@@ -1,6 +1,6 @@
 # Streamlib
 
-Streamlib is a meta-player for video streams. The specification defines a standard for indexing video stream URLs, and the CLI enables quick searching of those streams. Once a stream is chosen for viewing, it is passed on to a standard media player, defaulting to [mpv](https://mpv.io/) which is currently the only supported player.
+Streamlib is a meta-player for video streams. The specification defines a standard for indexing video stream URLs, and the CLI enables quick searching of those streams. Once a stream is chosen for viewing, it is passed on to a standard media player, defaulting to [mpv](https://mpv.io/) which is the recommended player.
 
 ## Usage
 
@@ -17,6 +17,14 @@ Entire library can be dumped with the `-L` flag:
 ```bash
 $ cargo run -- -L
 ```
+
+An alternate player can be set with the `-p` flag:
+
+```bash
+$ cargo run -- -p vlc groove
+```
+
+But note that some features critical for playing streams (such as customizing HTTP headers) are unavailable and will cause some streams to fail.
 
 ### Testing
 

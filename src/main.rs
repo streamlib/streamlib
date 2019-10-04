@@ -34,6 +34,7 @@ fn main() {
         .arg(Arg::with_name("player")
             .short("p")
             .long("player")
+            .default_value("mpv")
             .help("Media player to run, defaults to `mpv`")
             .takes_value(true))
         .get_matches();
@@ -46,10 +47,12 @@ fn main() {
     }
 
     let q = matches.value_of("query").unwrap();
+    let player = matches.value_of("player").unwrap();
     let entry = Selector::from(lib).select(q);
 
+
     match entry {
-        Some(e) => Player::from(e).play(),
+        Some(e) => Player::from(e, player).play(),
         None => {
             println!("No match found...")
         }
