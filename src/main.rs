@@ -44,6 +44,8 @@ fn main() {
             .help("Force a library update"))
         .get_matches();
 
+    // Load the default library from https://github.com/streamlib/library
+    // Or use an explicit path to a local directory
     let libpath = match matches.value_of("library") {
         Some(library) => String::from(library),
         None => {
@@ -54,15 +56,16 @@ fn main() {
     };
     let lib = Library::from_directory(libpath.as_str());
 
+    // If we're just listing entries, print them and return
     if matches.is_present("list") {
         Selector::from(lib).list();
         return
     }
 
+    // Otherwise, get the query, player and entry and run everything
     let q = matches.value_of("query").unwrap();
     let player = matches.value_of("player").unwrap_or("mpv");
     let entry = Selector::from(lib).select(q);
-
 
     match entry {
         Some(e) => Player::from(e, player).play(),
