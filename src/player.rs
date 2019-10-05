@@ -91,4 +91,15 @@ mod tests {
         assert_eq!(p.build_args(), ["-v", "http://example.com/"]);
     }
 
+    #[test]
+    fn test_player_not_found() {
+        let p = Player {
+            player: String::from("nonexistentplayer"),
+            url: String::from("http://example.com/"),
+            headers: vec![],
+            debug: false
+        };
+        // will throw an error if not caught
+        p.play();
+    }
 }
