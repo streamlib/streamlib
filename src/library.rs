@@ -53,6 +53,19 @@ impl Library {
         println!("Loaded {} stream entries...", lib.entries.len());
         lib
     }
+
+    pub fn query(&self, q: &str) -> Vec<Entry> {
+        self.entries
+            .iter()
+            .filter(|e| {
+                let n = e.name.clone().unwrap_or(String::new()).to_ascii_lowercase();
+                let d = e.description.clone().unwrap_or(String::new()).to_ascii_lowercase();
+                let u = e.url.to_ascii_lowercase();
+                n.contains(q) || d.contains(q) || u.contains(q)
+            })
+            .cloned()
+            .collect()
+    }
 }
 
 #[cfg(test)]
@@ -84,5 +97,15 @@ mod tests {
         for e in lib.entries {
             assert_eq!(e.url.starts_with("http"), true);
         }
+    }
+
+    #[test]
+    fn test_query() {
+        let lib = Library::from_str(TEST_LIB);
+        assert_eq!(lib.query("groove").len(), 1);
+        assert_eq!(lib.query("secret").len(), 1);
+        assert_eq!(lib.query("chilled").len(), 1);
+        assert_eq!(lib.query("soma").len(), 2);
+        assert_eq!(lib.query("nomatch").len(), 0);
     }
 }
