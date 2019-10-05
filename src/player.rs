@@ -46,8 +46,8 @@ impl Player {
             Ok(_) => {
                 println!("Player process terminated");
             },
-            Err(_) => {
-                println!("Player {} not found, please install it or use a custom player with `-p playername`", player);
+            Err(e) => {
+                println!("Player {} not found, please install it or use a custom player with `-p playername` ({})", player, e);
             }
         }
     }
