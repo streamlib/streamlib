@@ -51,3 +51,7 @@ $ cargo run -- --library ../library groove
 ```
 
 See https://github.com/streamlib/library for more details.
+
+## License
+
+[GPLv3](LICENSE)
