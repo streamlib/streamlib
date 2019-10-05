@@ -41,8 +41,15 @@ impl Player {
         println!("Starting player process");
         let player = self.player.as_str();
         let args = self.build_args();
-        cmd(player, args).run().unwrap();
-        println!("mpv process terminated");
+
+        match cmd(player, args).run() {
+            Ok(_) => {
+                println!("Player process terminated");
+            },
+            Err(_) => {
+                println!("Player {} not found, please install it or use a custom player with `-p playername`", player);
+            }
+        }
     }
 }
 
