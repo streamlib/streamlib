@@ -18,6 +18,12 @@ Entire library can be dumped with the `-L` flag:
 $ cargo run -- -L
 ```
 
+Or filtered to show a specific query:
+
+```bash
+$ cargo run -- -L somafm
+```
+
 An alternate player can be set with the `-p` flag:
 
 ```bash
