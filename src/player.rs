@@ -1,4 +1,6 @@
 extern crate duct;
+extern crate reqwest;
+extern crate serde_json;
 
 use duct::cmd;
 use super::library::Entry;
@@ -57,6 +59,7 @@ impl Player {
 #[cfg(test)]
 mod tests {
     use super::Player;
+    use super::super::utils::json_query;
 
     #[test]
     fn test_http_headers_args() {
@@ -101,5 +104,12 @@ mod tests {
         };
         // will throw an error if not caught
         p.play();
+    }
+
+    #[test]
+    fn test_http() {
+        let resp: serde_json::Value = reqwest::get("https://mass.mako.co.il/ClicksStatistics/entitlementsServicesV2.jsp?et=ngt&lp=/hls/live/512033/CH2LIVE_HIGH/index.m3u8&rv=AKAMAI").unwrap().json().unwrap();
+        let jq = "tickets.0.ticket";
+        println!("{}", json_query(&resp, jq));
     }
 }

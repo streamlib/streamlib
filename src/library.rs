@@ -12,7 +12,8 @@ use super::utils;
 pub struct Query {
     pub name: String,
     pub url: String,
-    pub regex: String
+    pub regex: String,
+    pub json: String,
 }
 
 #[derive(Clone, Deserialize, Debug)]
@@ -126,6 +127,7 @@ mod tests {
             name = "hdnea"
             url = "https://mass.mako.co.il/ClicksStatistics/entitlementsServicesV2.jsp?et=ngt&lp=/hls/live/512033/CH2LIVE_HIGH/index.m3u8&rv=AKAMAI"
             regex = 'hdnea=([^\"]*)'
+            json = 'tickets.0.ticket'
     "#;
 
     #[test]
