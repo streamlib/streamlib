@@ -26,6 +26,12 @@ $ cargo run -- -p vlc groove
 
 But note that some features critical for playing streams (such as customizing HTTP headers) are unavailable and will cause some streams to fail.
 
+Use the `--library` flag to point streamlib to a local library directory for testing new additions:
+
+```bash
+$ cargo run -- --library /path/to/local/library groove
+```
+
 ### Testing
 
 ```bash
@@ -34,4 +40,14 @@ $ cargo test
 
 ## Library
 
-See https://github.com/streamlib/library for details
+To add new content and test it you'll need to clone both repositories:
+
+```bash
+$ git clone https://github.com/streamlib/streamlib
+$ git clone https://github.com/streamlib/library
+# add any files you want to the library
+$ cd streamlib
+$ cargo run -- --library ../library groove
+```
+
+See https://github.com/streamlib/library for more details.
