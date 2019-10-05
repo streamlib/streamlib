@@ -55,17 +55,18 @@ fn main() {
         }
     };
     let lib = Library::from_directory(libpath.as_str());
+    let selector = Selector::from(lib);
+    let query = matches.value_of("query").unwrap_or("");
 
     // If we're just listing entries, print them and return
     if matches.is_present("list") {
-        Selector::from(lib).list();
+        selector.list(query);
         return
     }
 
-    // Otherwise, get the query, player and entry and run everything
-    let q = matches.value_of("query").unwrap();
+    // Otherwise, get the player and entry and run everything
     let player = matches.value_of("player").unwrap_or("mpv");
-    let entry = Selector::from(lib).select(q);
+    let entry = selector.select(query);
 
     match entry {
         Some(e) => Player::from(e, player).play(),

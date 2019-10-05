@@ -17,8 +17,8 @@ impl Selector {
         self.lib.query(q).pop()
     }
 
-    pub fn list(self) {
-        for e in self.lib.entries {
+    pub fn list(self, q: &str) {
+        for e in self.lib.query(q) {
             let name = e.name.unwrap_or(String::from("(untitled)"));
             let mut desc = e.description.unwrap_or(String::new());
             if desc.len() > 0 {
