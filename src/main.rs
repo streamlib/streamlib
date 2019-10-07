@@ -1,4 +1,5 @@
 extern crate clap;
+#[cfg(not(target_os = "windows"))]
 extern crate termion;
 
 use clap::{Arg, App, crate_authors, crate_version};

@@ -25,6 +25,7 @@ impl Selector {
             if desc.len() > 0 {
                 desc = format!(" - {}", desc);
             }
+            #[cfg(not(target_os = "windows"))]
             println!("{}{}{}{}{}\n\t{}\n", color::Fg(color::Yellow), style::Bold, name, style::Reset, desc, e.url);
         }
     }
