@@ -1,3 +1,4 @@
+#[cfg(not(target_os = "windows"))]
 use termion::{color, style};
 
 use super::library::{Entry, Library};
