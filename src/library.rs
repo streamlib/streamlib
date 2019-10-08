@@ -9,25 +9,25 @@ use serde::Deserialize;
 use super::utils;
 
 #[derive(Clone, Deserialize, Debug)]
-pub struct Entry {
-    pub name: Option<String>,
-    pub description: Option<String>,
-    pub url: String,
-    pub tags: Option<Vec<String>>,
-    pub http_headers: Option<Vec<String>>
+pub struct Entry<'a> {
+    pub name: Option<&'a str>,
+    pub description: Option<&'a str>,
+    pub url: &'a str,
+    pub tags: Option<Vec<&'a str>>,
+    pub http_headers: Option<Vec<&'a str>>
 }
 
-pub type LibraryEntries = BTreeMap<String, Entry>;
+pub type LibraryEntries<'a> = BTreeMap<String, Entry<'a>>;
 
-pub struct Library {
-    pub entries: Vec<Entry>
+pub struct Library<'a> {
+    pub entries: Vec<Entry<'a>>
 }
 
-impl Library {
+impl<'de, T> Library<'de> {
     pub fn from_str(s: &str) -> Self {
         let entmap: LibraryEntries = toml::from_str(s).unwrap();
         let entries: Vec<Entry> = entmap.values().cloned().collect();
-        Library {
+        Self {
             entries
         }
     }
