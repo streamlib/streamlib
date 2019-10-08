@@ -12,5 +12,5 @@ git2 = "0.10.1"
 glob = "0.3.0"
 serde = { version = "1.0.101", features = ["derive"] }
 toml = "0.5.3"
-[target.'cfg(not(target_os = "windows"))'. dependencies]
+[target.'cfg(target_family = "unix")'. dependencies]
 termion = "1.5.3"
