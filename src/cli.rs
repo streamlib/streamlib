@@ -1,4 +1,4 @@
-#[cfg(not(target_os = "windows"))]
+#[cfg(target_family = "unix")]
 use termion::{color, style};
 
 use super::library::{Entry, Library};
@@ -25,8 +25,10 @@ impl Selector {
             if desc.len() > 0 {
                 desc = format!(" - {}", desc);
             }
-            #[cfg(not(target_os = "windows"))]
+            #[cfg(target_family = "unix")]
             println!("{}{}{}{}{}\n\t{}\n", color::Fg(color::Yellow), style::Bold, name, style::Reset, desc, e.url);
+            #[cfg(target_family = "windows")]
+            println!("{}{}\n\t{}\n",name, desc, e.url);
         }
     }
 }
