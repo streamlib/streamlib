@@ -23,7 +23,7 @@ pub struct Entry {
     pub url: String,
     pub tags: Option<Vec<String>>,
     pub http_headers: Option<Vec<String>>,
-    pub query: Option<Query>
+    pub query: Option<Vec<Query>>
 }
 
 pub type LibraryEntries = BTreeMap<String, Entry>;
@@ -80,6 +80,7 @@ impl Library {
 #[cfg(test)]
 mod tests {
     use super::Library;
+    use super::Query;
 
     const TEST_LIB: &'static str = r#"
         [groovesalad]
@@ -123,7 +124,7 @@ mod tests {
         name = "Keshet Channel 12"
         url = "https://keshethlslive-i.akamaihd.net/hls/live/512033/CH2LIVE_HIGH/index.m3u8"
 
-            [keshet.query]
+            [[keshet.query]]
             name = "hdnea"
             url = "https://mass.mako.co.il/ClicksStatistics/entitlementsServicesV2.jsp?et=ngt&lp=/hls/live/512033/CH2LIVE_HIGH/index.m3u8&rv=AKAMAI"
             regex = 'hdnea=([^\"]*)'
@@ -133,7 +134,7 @@ mod tests {
     #[test]
     fn test_complex_lib() {
         let lib = Library::from_str(COMPLEX_LIB);
-        let query = lib.entries[0].query.as_ref().unwrap();
-        assert_eq!(query.name, "hdnea");
+        let query = &lib.entries[0].query.as_ref().unwrap();
+        assert_eq!(query.first().unwrap().name, "hdnea");
     }
 }
