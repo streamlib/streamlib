@@ -1,10 +1,10 @@
 extern crate duct;
 extern crate reqwest;
-extern crate serde_json;
 
 use duct::cmd;
 use std::collections::HashMap;
 use super::library::{Entry, Query};
+use super::utils::json_query;
 
 pub struct Player {
     player: String,
@@ -38,15 +38,24 @@ impl Player {
             args.push(self.headers.join("','"));
         }
 
-        if self.queries.len() > 0 {
-
-        }
-
         args.push(self.url.clone());
         args
     }
 
-    pub fn append_query_args(&mut self, args: HashMap<&str, &str>) {
+    pub fn resolve_queries(&self) -> HashMap<&str, &str> {
+        let mut args = HashMap::new();
+        for query in &self.queries {
+            let url = query.url.as_str();
+            let mut res = reqwest::get(url).expect(format!("Error calling {}", url).as_str());
+            let jsonval: serde_json::Value = res.json().expect("Invalid json data");
+            let val = json_query(&jsonval, &query.json);
+            args.insert(query.name.as_str(), val.as_str());
+        }
+        args
+    }
+
+    pub fn build_url_query(&self, args: HashMap<&str, &str>) -> String {
+        let mut url = self.url.clone();
         let mut res = String::new();
         for (key, value) in args {
             res.push_str(key);
@@ -55,18 +64,25 @@ impl Player {
             res.push_str("&");
         }
         res.pop(); // remove the last ampersand
-        if self.url.contains("?") {
-            self.url.push_str("&");
+        if url.contains("?") {
+            url.push_str("&");
         }
         else {
-            self.url.push_str("?");
+            url.push_str("?");
         }
-        self.url.push_str(&res);
+        url.push_str(&res);
+        url
     }
 
-    pub fn play(&self) {
+    pub fn play(&mut self) {
         println!("Starting player process");
         let player = self.player.as_str();
+
+        if self.queries.len() > 0 {
+            let query_args = self.resolve_queries();
+            self.url = self.build_url_query(query_args);
+        }
+
         let args = self.build_args();
 
         match cmd(player, args).run() {
@@ -125,7 +141,7 @@ mod tests {
 
     #[test]
     fn test_player_not_found() {
-        let p = Player {
+        let mut p = Player {
             player: String::from("nonexistentplayer"),
             url: String::from("http://example.com/"),
             headers: vec![],
@@ -145,7 +161,7 @@ mod tests {
 
     #[test]
     fn test_append_args() {
-        let mut p = Player {
+        let p = Player {
             player: String::from("nonexistentplayer"),
             url: String::from("http://example.com/feed.m3u8"),
             headers: vec![],
@@ -154,14 +170,14 @@ mod tests {
         };
         let mut args = HashMap::new();
         args.insert("abc", "def");
-        p.append_query_args(args);
+        let url = p.build_url_query(args);
 
-        assert_eq!(p.url, "http://example.com/feed.m3u8?abc=def")
+        assert_eq!(url, "http://example.com/feed.m3u8?abc=def")
     }
 
     #[test]
     fn test_append_args_with_existing() {
-        let mut p = Player {
+        let p = Player {
             player: String::from("nonexistentplayer"),
             url: String::from("http://example.com/feed.m3u8?old=args"),
             headers: vec![],
@@ -170,8 +186,8 @@ mod tests {
         };
         let mut args = HashMap::new();
         args.insert("abc", "def");
-        p.append_query_args(args);
+        let url = p.build_url_query(args);
 
-        assert_eq!(p.url, "http://example.com/feed.m3u8?old=args&abc=def")
+        assert_eq!(url, "http://example.com/feed.m3u8?old=args&abc=def")
     }
 }
