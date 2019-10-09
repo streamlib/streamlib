@@ -170,9 +170,8 @@ mod tests {
         };
         let mut args = HashMap::new();
         args.insert("abc", "def");
-        args.insert("ghi", "jkl");
         p.append_query_args(args);
 
-        assert_eq!(p.url, "http://example.com/feed.m3u8?old=args&abc=def&ghi=jkl")
+        assert_eq!(p.url, "http://example.com/feed.m3u8?old=args&abc=def")
     }
 }

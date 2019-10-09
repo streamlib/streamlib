@@ -80,7 +80,6 @@ impl Library {
 #[cfg(test)]
 mod tests {
     use super::Library;
-    use super::Query;
 
     const TEST_LIB: &'static str = r#"
         [groovesalad]
