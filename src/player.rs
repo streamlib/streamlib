@@ -42,25 +42,25 @@ impl Player {
         args
     }
 
-    pub fn resolve_queries(&self) -> HashMap<&str, &str> {
+    pub fn resolve_queries(&self) -> HashMap<String, String> {
         let mut args = HashMap::new();
         for query in &self.queries {
             let url = query.url.as_str();
             let mut res = reqwest::get(url).expect(format!("Error calling {}", url).as_str());
             let jsonval: serde_json::Value = res.json().expect("Invalid json data");
             let val = json_query(&jsonval, &query.json);
-            args.insert(query.name.as_str(), val.as_str());
+            args.insert(query.name.clone(), val);
         }
         args
     }
 
-    pub fn build_url_query(&self, args: HashMap<&str, &str>) -> String {
+    pub fn build_url_query(&self, args: HashMap<String, String>) -> String {
         let mut url = self.url.clone();
         let mut res = String::new();
         for (key, value) in args {
-            res.push_str(key);
+            res.push_str(key.as_str());
             res.push_str("=");
-            res.push_str(value);
+            res.push_str(value.as_str());
             res.push_str("&");
         }
         res.pop(); // remove the last ampersand
@@ -169,7 +169,7 @@ mod tests {
             debug: false
         };
         let mut args = HashMap::new();
-        args.insert("abc", "def");
+        args.insert(String::from("abc"), String::from("def"));
         let url = p.build_url_query(args);
 
         assert_eq!(url, "http://example.com/feed.m3u8?abc=def")
@@ -185,7 +185,7 @@ mod tests {
             debug: false
         };
         let mut args = HashMap::new();
-        args.insert("abc", "def");
+        args.insert(String::from("abc"), String::from("def"));
         let url = p.build_url_query(args);
 
         assert_eq!(url, "http://example.com/feed.m3u8?old=args&abc=def")
