@@ -1,8 +1,11 @@
 extern crate duct;
+extern crate regex;
 extern crate reqwest;
 
 use duct::cmd;
+use regex::Regex;
 use std::collections::HashMap;
+
 use super::library::{Entry, Query};
 use super::utils::json_query;
 
@@ -46,9 +49,16 @@ impl Player {
         let mut args = HashMap::new();
         for query in &self.queries {
             let url = query.url.as_str();
+            println!("Fetching query arg {} from {}", query.name, url);
             let mut res = reqwest::get(url).expect(format!("Error calling {}", url).as_str());
-            let jsonval: serde_json::Value = res.json().expect("Invalid json data");
-            let val = json_query(&jsonval, &query.json);
+            let restext = &res.text().unwrap();
+
+            let re = Regex::new(&query.regex).unwrap();
+            let caps = re.captures(restext).unwrap();
+            let val = String::from(caps.get(1).unwrap().as_str());
+
+            // let jsonval: serde_json::Value = res.json().expect("Invalid json data");
+            // let val = json_query(&jsonval, &query.json);
             args.insert(query.name.clone(), val);
         }
         args
