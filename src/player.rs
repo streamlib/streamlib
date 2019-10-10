@@ -107,6 +107,7 @@ impl Player {
         }
         else {
             println!("Skipping actual stream play...");
+            println!("{} {:?}", player, args);
         }
     }
 }
