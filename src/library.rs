@@ -27,6 +27,21 @@ pub struct Entry {
     pub smil: Option<bool>
 }
 
+impl Entry {
+    #[cfg(test)]
+    pub fn from_url(url: String) -> Self {
+        Entry {
+            name: None,
+            description: None,
+            url: url,
+            tags: None,
+            http_headers: None,
+            query: None,
+            smil: None
+        }
+    }
+}
+
 pub type LibraryEntries = BTreeMap<String, Entry>;
 
 pub struct Library {

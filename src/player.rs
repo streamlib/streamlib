@@ -12,10 +12,7 @@ use super::utils::json_query;
 
 pub struct Player {
     player: String,
-    url: String,
-    headers: Vec<String>,
-    queries: Vec<Query>,
-    smil: bool,
+    entry: Entry,
     debug: bool
 }
 
@@ -23,10 +20,7 @@ impl Player {
     pub fn from(entry: Entry, player: &str) -> Self {
         Player {
             player: String::from(player),
-            url: entry.url,
-            headers: entry.http_headers.unwrap_or(vec![]),
-            queries: entry.query.unwrap_or(vec![]),
-            smil: entry.smil.unwrap_or(false),
+            entry: entry,
             debug: false
         }
     }
@@ -38,19 +32,23 @@ impl Player {
             args.push(String::from("-v"))
         }
 
-        if self.headers.len() > 0 && self.player == "mpv" {
-            // Headers are currently supported only with `mpv`
-            args.push(String::from("--http-header-fields"));
-            args.push(self.headers.join("','"));
+        if self.entry.http_headers.is_some() {
+            let headers = self.entry.http_headers.as_ref().unwrap();
+            if headers.len() > 0 && self.player == "mpv" {
+                // Headers are currently supported only with `mpv`
+                args.push(String::from("--http-header-fields"));
+                args.push(headers.join("','"));
+            }
         }
 
-        args.push(self.url.clone());
+        args.push(self.entry.url.clone());
         args
     }
 
-    pub fn resolve_queries(&self) -> HashMap<String, String> {
+    pub fn resolve_queries(&self, queries: &Vec<Query>) -> HashMap<String, String> {
         let mut args = HashMap::new();
-        for query in &self.queries {
+
+        for query in queries {
             let url = query.url.as_str();
             println!("Fetching query arg {} from {}", query.name, url);
             let mut res = reqwest::get(url).expect(format!("Error calling {}", url).as_str());
@@ -78,7 +76,7 @@ impl Player {
     }
 
     pub fn build_url_query(&self, args: HashMap<String, String>) -> String {
-        let mut url = self.url.clone();
+        let mut url = self.entry.url.clone();
         let mut res = String::new();
         for (key, value) in args {
             res.push_str(key.as_str());
@@ -101,14 +99,17 @@ impl Player {
         println!("Starting player process");
         let player = self.player.as_str();
 
-        if self.smil {
-            println!("Handling SMIL url {}", self.url);
-            self.url = get_best_stream(&self.url);
+        if self.entry.smil.unwrap_or(false) {
+            println!("Handling SMIL url {}", self.entry.url);
+            self.entry.url = get_best_stream(&self.entry.url);
         }
 
-        if self.queries.len() > 0 {
-            let query_args = self.resolve_queries();
-            self.url = self.build_url_query(query_args);
+        if self.entry.query.is_some() {
+            let queries = self.entry.query.as_ref().unwrap();
+            if queries.len() > 0 {
+                let query_args = self.resolve_queries(queries);
+                self.entry.url = self.build_url_query(query_args);
+            }
         }
 
         let args = self.build_args();
@@ -135,16 +136,16 @@ impl Player {
 mod tests {
     use std::collections::HashMap;
     use super::Player;
+    use super::super::library::Entry;
     use super::super::utils::json_query;
 
     #[test]
     fn test_http_headers_args() {
+        let mut entry = Entry::from_url(String::from("http://example.com/"));
+        entry.http_headers = Some(vec![String::from("A: b"), String::from("C: d")]);
         let p = Player {
             player: String::from("mpv"),
-            url: String::from("http://example.com/"),
-            headers: vec![String::from("A: b"), String::from("C: d")],
-            queries: vec![],
-            smil: false,
+            entry: entry,
             debug: false
         };
         assert_eq!(p.build_args(), ["--http-header-fields", "A: b','C: d", "http://example.com/"]);
@@ -152,12 +153,11 @@ mod tests {
 
     #[test]
     fn test_no_http_headers_args() {
+        let mut entry = Entry::from_url(String::from("http://example.com/"));
+        entry.http_headers = Some(vec![String::from("A: b"), String::from("C: d")]);
         let p = Player {
             player: String::from("cvlc"),
-            url: String::from("http://example.com/"),
-            headers: vec![String::from("A: b"), String::from("C: d")],
-            queries: vec![],
-            smil: false,
+            entry: entry,
             debug: false
         };
         assert_eq!(p.build_args().len(), 1); // just the url
@@ -165,12 +165,10 @@ mod tests {
 
     #[test]
     fn test_debug_args() {
+        let entry = Entry::from_url(String::from("http://example.com/"));
         let p = Player {
             player: String::from("mpv"),
-            url: String::from("http://example.com/"),
-            headers: vec![],
-            queries: vec![],
-            smil: false,
+            entry: entry,
             debug: true
         };
         assert_eq!(p.build_args(), ["-v", "http://example.com/"]);
@@ -178,12 +176,10 @@ mod tests {
 
     #[test]
     fn test_player_not_found() {
+        let entry = Entry::from_url(String::from("http://example.com/"));
         let mut p = Player {
             player: String::from("nonexistentplayer"),
-            url: String::from("http://example.com/"),
-            headers: vec![],
-            queries: vec![],
-            smil: false,
+            entry: entry,
             debug: false
         };
         // will throw an error if not caught
@@ -199,12 +195,10 @@ mod tests {
 
     #[test]
     fn test_append_args() {
+        let entry = Entry::from_url(String::from("http://example.com/feed.m3u8"));
         let p = Player {
             player: String::from("nonexistentplayer"),
-            url: String::from("http://example.com/feed.m3u8"),
-            headers: vec![],
-            queries: vec![],
-            smil: false,
+            entry: entry,
             debug: false
         };
         let mut args = HashMap::new();
@@ -216,12 +210,10 @@ mod tests {
 
     #[test]
     fn test_append_args_with_existing() {
+        let entry = Entry::from_url(String::from("http://example.com/feed.m3u8?old=args"));
         let p = Player {
             player: String::from("nonexistentplayer"),
-            url: String::from("http://example.com/feed.m3u8?old=args"),
-            headers: vec![],
-            queries: vec![],
-            smil: false,
+            entry: entry,
             debug: false
         };
         let mut args = HashMap::new();
