@@ -23,7 +23,8 @@ pub struct Entry {
     pub url: String,
     pub tags: Option<Vec<String>>,
     pub http_headers: Option<Vec<String>>,
-    pub query: Option<Vec<Query>>
+    pub query: Option<Vec<Query>>,
+    pub smil: Option<bool>
 }
 
 pub type LibraryEntries = BTreeMap<String, Entry>;

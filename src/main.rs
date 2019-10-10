@@ -8,6 +8,7 @@ mod cli;
 mod git;
 mod library;
 mod player;
+mod smil;
 mod utils;
 
 use cli::Selector;

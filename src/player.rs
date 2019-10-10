@@ -7,6 +7,7 @@ use regex::Regex;
 use std::collections::HashMap;
 
 use super::library::{Entry, Query};
+use super::smil::get_best_stream;
 use super::utils::json_query;
 
 pub struct Player {
@@ -14,6 +15,7 @@ pub struct Player {
     url: String,
     headers: Vec<String>,
     queries: Vec<Query>,
+    smil: bool,
     debug: bool
 }
 
@@ -24,6 +26,7 @@ impl Player {
             url: entry.url,
             headers: entry.http_headers.unwrap_or(vec![]),
             queries: entry.query.unwrap_or(vec![]),
+            smil: entry.smil.unwrap_or(false),
             debug: false
         }
     }
@@ -98,6 +101,11 @@ impl Player {
         println!("Starting player process");
         let player = self.player.as_str();
 
+        if self.smil {
+            println!("Handling smil url {}", self.url);
+            self.url = get_best_stream(&self.url);
+        }
+
         if self.queries.len() > 0 {
             let query_args = self.resolve_queries();
             self.url = self.build_url_query(query_args);
@@ -136,6 +144,7 @@ mod tests {
             url: String::from("http://example.com/"),
             headers: vec![String::from("A: b"), String::from("C: d")],
             queries: vec![],
+            smil: false,
             debug: false
         };
         assert_eq!(p.build_args(), ["--http-header-fields", "A: b','C: d", "http://example.com/"]);
@@ -148,6 +157,7 @@ mod tests {
             url: String::from("http://example.com/"),
             headers: vec![String::from("A: b"), String::from("C: d")],
             queries: vec![],
+            smil: false,
             debug: false
         };
         assert_eq!(p.build_args().len(), 1); // just the url
@@ -160,6 +170,7 @@ mod tests {
             url: String::from("http://example.com/"),
             headers: vec![],
             queries: vec![],
+            smil: false,
             debug: true
         };
         assert_eq!(p.build_args(), ["-v", "http://example.com/"]);
@@ -172,6 +183,7 @@ mod tests {
             url: String::from("http://example.com/"),
             headers: vec![],
             queries: vec![],
+            smil: false,
             debug: false
         };
         // will throw an error if not caught
@@ -192,6 +204,7 @@ mod tests {
             url: String::from("http://example.com/feed.m3u8"),
             headers: vec![],
             queries: vec![],
+            smil: false,
             debug: false
         };
         let mut args = HashMap::new();
@@ -208,6 +221,7 @@ mod tests {
             url: String::from("http://example.com/feed.m3u8?old=args"),
             headers: vec![],
             queries: vec![],
+            smil: false,
             debug: false
         };
         let mut args = HashMap::new();
