@@ -28,6 +28,7 @@ pub fn json_query(json: &serde_json::Value, query: &str) -> String {
 }
 
 mod tests {
+    #[cfg(test)]
     use super::json_query;
 
     #[test]
