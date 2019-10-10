@@ -74,7 +74,7 @@ impl Player {
         url
     }
 
-    pub fn play(&mut self) {
+    pub fn play(&mut self, noplay: bool) {
         println!("Starting player process");
         let player = self.player.as_str();
 
@@ -85,13 +85,18 @@ impl Player {
 
         let args = self.build_args();
 
-        match cmd(player, args).run() {
-            Ok(_) => {
-                println!("Player process terminated");
-            },
-            Err(e) => {
-                println!("Player {} not found, please install it or use a custom player with `-p playername` ({})", player, e);
+        if !noplay {
+            match cmd(player, args).run() {
+                Ok(_) => {
+                    println!("Player process terminated");
+                },
+                Err(e) => {
+                    println!("Player {} not found, please install it or use a custom player with `-p playername` ({})", player, e);
+                }
             }
+        }
+        else {
+            println!("Skipping actual stream play...");
         }
     }
 }
