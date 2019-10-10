@@ -175,7 +175,7 @@ mod tests {
             debug: false
         };
         // will throw an error if not caught
-        p.play();
+        p.play(false);
     }
 
     #[test]
