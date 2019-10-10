@@ -102,7 +102,7 @@ impl Player {
         let player = self.player.as_str();
 
         if self.smil {
-            println!("Handling smil url {}", self.url);
+            println!("Handling SMIL url {}", self.url);
             self.url = get_best_stream(&self.url);
         }
 
