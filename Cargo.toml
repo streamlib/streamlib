@@ -1,6 +1,6 @@
 [package]
 name = "streamlib"
-version = "0.3.0"
+version = "0.4.0"
 authors = ["Yuval Adam <_@yuv.al>"]
 edition = "2018"
 
