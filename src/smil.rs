@@ -34,7 +34,7 @@ pub fn get_best_stream(url: &String) -> String {
                     feed = reader.read_text(FEED_TAG_NAME, &mut Vec::new()).expect("Cannot decode feed value");
                 }
                 SERVER_TAG_NAME => {
-                    servers.push(reader.read_text(SERVER_TAG_NAME, &mut Vec::new()).expect("Cannot decode feed value"));
+                    servers.push(reader.read_text(SERVER_TAG_NAME, &mut Vec::new()).expect("Cannot decode server value"));
                 }
                 _ => ()
             }
