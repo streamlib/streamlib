@@ -23,8 +23,10 @@ fn main() {
         .arg(Arg::with_name("list")
             .short("L")
             .long("list")
-            .help("List all library entries")
-            )
+            .help("List all library entries"))
+        .arg(Arg::with_name("noplay")
+            .long("noplay")
+            .help("Do everything except actually play the stream"))
         .arg(Arg::with_name("query")
             .help("Stream name/description/URL to query")
             .required_unless("list")
@@ -67,10 +69,11 @@ fn main() {
 
     // Otherwise, get the player and entry and run everything
     let player = matches.value_of("player").unwrap_or("mpv");
+    let noplay = matches.is_present("noplay");
     let entry = selector.select(query);
 
     match entry {
-        Some(e) => Player::from(e, player).play(),
+        Some(e) => Player::from(e, player).play(noplay),
         None => {
             println!("No match found...")
         }

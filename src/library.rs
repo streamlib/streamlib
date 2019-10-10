@@ -9,12 +9,21 @@ use serde::Deserialize;
 use super::utils;
 
 #[derive(Clone, Deserialize, Debug)]
+pub struct Query {
+    pub name: String,
+    pub url: String,
+    pub regex: Option<String>,
+    pub json: Option<String>,
+}
+
+#[derive(Clone, Deserialize, Debug)]
 pub struct Entry {
     pub name: Option<String>,
     pub description: Option<String>,
     pub url: String,
     pub tags: Option<Vec<String>>,
-    pub http_headers: Option<Vec<String>>
+    pub http_headers: Option<Vec<String>>,
+    pub query: Option<Vec<Query>>
 }
 
 pub type LibraryEntries = BTreeMap<String, Entry>;
@@ -107,5 +116,24 @@ mod tests {
         assert_eq!(lib.query("chilled").len(), 1);
         assert_eq!(lib.query("soma").len(), 2);
         assert_eq!(lib.query("nomatch").len(), 0);
+    }
+
+    const COMPLEX_LIB: &str = r#"
+        [keshet]
+        name = "Keshet Channel 12"
+        url = "https://keshethlslive-i.akamaihd.net/hls/live/512033/CH2LIVE_HIGH/index.m3u8"
+
+            [[keshet.query]]
+            name = "hdnea"
+            url = "https://mass.mako.co.il/ClicksStatistics/entitlementsServicesV2.jsp?et=ngt&lp=/hls/live/512033/CH2LIVE_HIGH/index.m3u8&rv=AKAMAI"
+            regex = 'hdnea=([^\"]*)'
+            json = 'tickets.0.ticket'
+    "#;
+
+    #[test]
+    fn test_complex_lib() {
+        let lib = Library::from_str(COMPLEX_LIB);
+        let query = &lib.entries[0].query.as_ref().unwrap();
+        assert_eq!(query.first().unwrap().name, "hdnea");
     }
 }
