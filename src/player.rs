@@ -51,14 +51,24 @@ impl Player {
             let url = query.url.as_str();
             println!("Fetching query arg {} from {}", query.name, url);
             let mut res = reqwest::get(url).expect(format!("Error calling {}", url).as_str());
-            let restext = &res.text().unwrap();
 
-            let re = Regex::new(&query.regex).unwrap();
-            let caps = re.captures(restext).unwrap();
-            let val = String::from(caps.get(1).unwrap().as_str());
+            let mut val = String::new();
 
-            // let jsonval: serde_json::Value = res.json().expect("Invalid json data");
-            // let val = json_query(&jsonval, &query.json);
+            if query.regex.is_some() {
+                let re = Regex::new(&query.regex.as_ref().unwrap()).unwrap();
+                let restext = &res.text().unwrap();
+                let caps = re.captures(restext).unwrap();
+                val.push_str(caps.get(1).unwrap().as_str());
+            }
+            else if query.json.is_some() {
+                let jsonval: serde_json::Value = res.json().expect("Invalid json data");
+                let finalval = json_query(&jsonval, &query.json.as_ref().unwrap());
+                val.push_str(finalval.as_str());
+            }
+            else {
+                println!("Query arg {} is missing a regex/json pattern and will probably fail...", query.name);
+            }
+
             args.insert(query.name.clone(), val);
         }
         args

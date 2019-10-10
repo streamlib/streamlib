@@ -12,8 +12,8 @@ use super::utils;
 pub struct Query {
     pub name: String,
     pub url: String,
-    pub regex: String,
-    pub json: String,
+    pub regex: Option<String>,
+    pub json: Option<String>,
 }
 
 #[derive(Clone, Deserialize, Debug)]
