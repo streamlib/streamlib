@@ -3,11 +3,12 @@ name: Test
 on: [push]
 
 jobs:
-  runs-on: ${{ matrix.os }}
-  strategy:
-    matrix:
-      os: [macOS-latest, windows-latest, ubuntu-latest]
   build:
+    name: Build
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macOS-latest, windows-latest, ubuntu-latest]
     steps:
       - uses: actions/checkout@v1
       - name: Build
