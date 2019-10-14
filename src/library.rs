@@ -86,7 +86,8 @@ impl Library {
                 let n = e.name.clone().unwrap_or(String::new()).to_ascii_lowercase();
                 let d = e.description.clone().unwrap_or(String::new()).to_ascii_lowercase();
                 let u = e.url.to_ascii_lowercase();
-                n.contains(q) || d.contains(q) || u.contains(q)
+                let t = e.tags.as_ref().unwrap_or(&vec![]).join(",").to_ascii_lowercase();
+                n.contains(q) || d.contains(q) || u.contains(q) || t.contains(q)
             })
             .cloned()
             .collect()
