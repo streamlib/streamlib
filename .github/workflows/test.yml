@@ -11,6 +11,10 @@ jobs:
         os: [macOS-latest, windows-latest, ubuntu-latest]
     steps:
       - uses: actions/checkout@v1
+      - name: Install toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+            toolchain: stable
       - name: Build
         run: cargo build --verbose
       - name: Test
