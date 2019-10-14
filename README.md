@@ -2,7 +2,7 @@
 
 Streamlib is a meta-player for media streams. The streamlib CLI works against a curated [library](https://github.com/streamlib/library) of video and audio streams, and enables querying and playback through a standard media player, defaulting to [mpv](https://mpv.io/) which is the recommended player.
 
-The most important feature Streamlib provides is the ability to generate timestamped authentication tokens on streams that require some basic level of authentication to them. See the (Queries)[https://github.com/streamlib/library#queries] section for more details.
+The most important feature Streamlib provides is the ability to generate timestamped authentication tokens on streams that require some basic level of authentication to them. See the [Queries](https://github.com/streamlib/library#queries) section for more details.
 
 ## Usage
 
