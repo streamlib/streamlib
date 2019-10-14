@@ -43,13 +43,13 @@ jobs:
 
       - name: Build ZIP
         id: build_zip
-        if: ${{ matrix.archive == "zip" }}
+        if: matrix.archive == 'zip'
         run: |
           zip ${{ matrix.output }} target/release/streamlib.exe
 
       - name: Build TAR
         id: build_tar
-        if: ${{ matrix.archive == "tar" }}
+        if: matrix.archive == 'tar'
         run: |
           tar czvf ${{ matrix.output }} target/release/streamlib
 
