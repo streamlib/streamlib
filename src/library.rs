@@ -131,6 +131,7 @@ mod tests {
         assert_eq!(lib.query("groove").len(), 1);
         assert_eq!(lib.query("secret").len(), 1);
         assert_eq!(lib.query("chilled").len(), 1);
+        assert_eq!(lib.query("radio").len(), 1);
         assert_eq!(lib.query("soma").len(), 2);
         assert_eq!(lib.query("nomatch").len(), 0);
     }
