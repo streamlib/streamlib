@@ -10,12 +10,16 @@ jobs:
       matrix:
         os: [macOS-latest, windows-latest, ubuntu-latest]
     steps:
-      - uses: actions/checkout@v1
+      - name: Checkout
+        uses: actions/checkout@v1
+
       - name: Install toolchain
         uses: actions-rs/toolchain@v1
         with:
-            toolchain: stable
+          toolchain: stable
+
       - name: Build
         run: cargo build --verbose
+
       - name: Test
         run: cargo test --verbose
