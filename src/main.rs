@@ -2,7 +2,7 @@ extern crate clap;
 #[cfg(target_family = "unix")]
 extern crate termion;
 
-use clap::{Arg, App, crate_authors, crate_version};
+use clap::{crate_authors, crate_version, App, Arg};
 
 mod cli;
 mod git;
@@ -11,6 +11,7 @@ mod player;
 mod smil;
 mod utils;
 
+use cli::start_gui;
 use cli::Selector;
 use git::Git;
 use library::Library;
@@ -21,32 +22,57 @@ fn main() {
         .version(crate_version!())
         .author(crate_authors!())
         .about("A video stream meta-player and specification")
-        .arg(Arg::with_name("list")
-            .short("L")
-            .long("list")
-            .help("List all library entries"))
-        .arg(Arg::with_name("noplay")
-            .long("noplay")
-            .help("Do everything except actually play the stream"))
-        .arg(Arg::with_name("query")
-            .help("Stream name/description/URL to query")
-            .required_unless("list")
-            .index(1))
-        .arg(Arg::with_name("library")
-            .short("l")
-            .long("library")
-            .help("Path to custom TOML file library")
-            .takes_value(true))
-        .arg(Arg::with_name("player")
-            .short("p")
-            .long("player")
-            .help("Name of custom player executable")
-            .takes_value(true))
-        .arg(Arg::with_name("update")
-            .short("u")
-            .long("update")
-            .help("Force a library update"))
+        .arg(
+            Arg::with_name("gui")
+                .short("g")
+                .long("gui")
+                .help("Experimental Graphical Users Interface"),
+        )
+        .arg(
+            Arg::with_name("list")
+                .short("L")
+                .long("list")
+                .help("List all library entries"),
+        )
+        .arg(
+            Arg::with_name("noplay")
+                .long("noplay")
+                .help("Do everything except actually play the stream"),
+        )
+        .arg(
+            Arg::with_name("query")
+                .help("Stream name/description/URL to query")
+                .required_unless("list")
+                .required_unless("gui")
+                .index(1),
+        )
+        .arg(
+            Arg::with_name("library")
+                .short("l")
+                .long("library")
+                .help("Path to custom TOML file library")
+                .takes_value(true),
+        )
+        .arg(
+            Arg::with_name("player")
+                .short("p")
+                .long("player")
+                .help("Name of custom player executable")
+                .takes_value(true),
+        )
+        .arg(
+            Arg::with_name("update")
+                .short("u")
+                .long("update")
+                .help("Force a library update"),
+        )
         .get_matches();
+
+    // Experimental GUI
+    if matches.is_present("gui") {
+        start_gui();
+        return;
+    }
 
     // Load the default library from https://github.com/streamlib/library
     // Or use an explicit path to a local directory
@@ -65,7 +91,7 @@ fn main() {
     // If we're just listing entries, print them and return
     if matches.is_present("list") {
         selector.list(query);
-        return
+        return;
     }
 
     // Otherwise, get the player and entry and run everything
@@ -75,8 +101,6 @@ fn main() {
 
     match entry {
         Some(e) => Player::from(e, player).play(noplay),
-        None => {
-            println!("No match found...")
-        }
+        None => println!("No match found..."),
     }
 }
