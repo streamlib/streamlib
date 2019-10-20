@@ -41,6 +41,22 @@ impl Player {
             }
         }
 
+        if self.entry.cookies_file.is_some() {
+            let headers = self.entry.cookies_file.as_ref().unwrap();
+            if headers.len() > 0 && self.player == "mpv" {
+                args.push(String::from("--cookies-file"));
+                args.push(headers.to_string());
+            }
+        }
+
+        if self.entry.hls_bitrate.is_some() {
+            let headers = self.entry.hls_bitrate.as_ref().unwrap();
+            if *headers && self.player == "mpv" {
+                args.push(String::from("--hls-bitrate"));
+                args.push(headers.to_string());
+            } 
+        }
+
         args.push(self.entry.url.clone());
         args
     }
@@ -155,6 +171,54 @@ mod tests {
     fn test_no_http_headers_args() {
         let mut entry = Entry::from_url(String::from("http://example.com/"));
         entry.http_headers = Some(vec![String::from("A: b"), String::from("C: d")]);
+        let p = Player {
+            player: String::from("cvlc"),
+            entry: entry,
+            debug: false
+        };
+        assert_eq!(p.build_args().len(), 1); // just the url
+    }
+
+    #[test]
+    fn test_cookies_file_args() {
+        let mut entry = Entry::from_url(String::from("http://example.com/"));
+        entry.cookies_file = Some(String::from("cookies.txt"));
+        let p = Player {
+            player: String::from("mpv"),
+            entry: entry,
+            debug: false
+        };
+        assert_eq!(p.build_args(), ["--cookies-file", "cookies.txt", "http://example.com/"]);
+    }
+
+    #[test]
+    fn test_no_cookies_file_args() {
+        let mut entry = Entry::from_url(String::from("http://example.com/"));
+        entry.cookies_file = Some(String::from("cookies.txt"));
+        let p = Player {
+            player: String::from("cvlc"),
+            entry: entry,
+            debug: false
+        };
+        assert_eq!(p.build_args().len(), 1); // just the url
+    }
+
+    #[test]
+    fn test_hls_bitrate_args() {
+        let mut entry = Entry::from_url(String::from("http://example.com/"));
+        entry.hls_bitrate = Some(true);
+        let p = Player {
+            player: String::from("mpv"),
+            entry: entry,
+            debug: false
+        };
+        assert_eq!(p.build_args(), ["--hls-bitrate", "true", "http://example.com/"]);
+    }
+
+    #[test]
+    fn test_no_hls_bitrate_args() {
+        let mut entry = Entry::from_url(String::from("http://example.com"));
+        entry.hls_bitrate = Some(true);
         let p = Player {
             player: String::from("cvlc"),
             entry: entry,

@@ -23,6 +23,8 @@ pub struct Entry {
     pub url: String,
     pub tags: Option<Vec<String>>,
     pub http_headers: Option<Vec<String>>,
+    pub cookies_file: Option<String>,
+    pub hls_bitrate: Option<bool>,
     pub query: Option<Vec<Query>>,
     pub smil: Option<bool>
 }
@@ -36,6 +38,8 @@ impl Entry {
             url: url,
             tags: None,
             http_headers: None,
+            cookies_file: None,
+            hls_bitrate: None,
             query: None,
             smil: None
         }
@@ -105,6 +109,7 @@ mod tests {
         url = "http://somafm.com/groovesalad.pls"
         tags = ["somafm", "radio", "ambient", "groove"]
         http_headers = ["Header-Name: value123", "Foo: goo"]
+        cookies_file = ["path-to-cookie.txt"]
 
         [secretagent]
         url = "http://somafm.com/secretagent.pls"
