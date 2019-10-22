@@ -11,7 +11,9 @@ mod player;
 mod smil;
 mod utils;
 
+#[cfg(target_family = "unix")]
 use cli::start_gui;
+
 use cli::Selector;
 use git::Git;
 use library::Library;
@@ -70,6 +72,10 @@ fn main() {
 
     // Experimental GUI
     if matches.is_present("gui") {
+        if cfg!(target_family = "windows") {
+            println!("Experimental GUI not supported on Windows...");
+            return;
+        }
         start_gui();
         return;
     }
