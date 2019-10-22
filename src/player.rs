@@ -217,7 +217,7 @@ mod tests {
 
     #[test]
     fn test_no_hls_bitrate_args() {
-        let mut entry = Entry::from_url(String::from("http://example.com"));
+        let mut entry = Entry::from_url(String::from("http://example.com/"));
         entry.hls_bitrate = Some(true);
         let p = Player {
             player: String::from("cvlc"),
