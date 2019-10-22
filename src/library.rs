@@ -109,7 +109,8 @@ mod tests {
         url = "http://somafm.com/groovesalad.pls"
         tags = ["somafm", "radio", "ambient", "groove"]
         http_headers = ["Header-Name: value123", "Foo: goo"]
-        cookies_file = ["path-to-cookie.txt"]
+        cookies_file = "cookies.txt"
+        hls_bitrate = true
 
         [secretagent]
         url = "http://somafm.com/secretagent.pls"
