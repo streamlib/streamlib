@@ -67,7 +67,7 @@ impl Library {
             entries: vec![]
         };
 
-        println!("{}", dir);
+        println!("Loading library directory {}", dir);
         let dirglob = format!("{}/**/*.toml", dir);
         for entry in glob(dirglob.as_str()).expect("Failed to read glob pattern") {
             let e = entry.unwrap();
