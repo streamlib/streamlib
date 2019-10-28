@@ -72,10 +72,9 @@ fn main() {
 
     // Experimental GUI
     if matches.is_present("gui") {
-        if cfg!(target_family = "windows") {
-            println!("Experimental GUI not supported on Windows...");
-            return;
-        }
+        #[cfg(target_family = "windows")]
+        println!("Experimental GUI not supported on Windows...");
+        #[cfg(target_family = "unix")]
         start_gui();
         return;
     }
