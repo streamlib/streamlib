@@ -1,8 +1,10 @@
 use std::io::{stdout, Write};
 use std::{thread, time};
-use termion::screen::*;
+
 #[cfg(target_family = "unix")]
 use termion::{color, style};
+#[cfg(target_family = "unix")]
+use termion::screen::*;
 
 use super::library::{Entry, Library};
 
