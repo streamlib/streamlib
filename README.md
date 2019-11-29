@@ -1,6 +1,7 @@
 # Streamlib
 
 ![](https://github.com/streamlib/streamlib/workflows/Test/badge.svg)
+[![](https://img.shields.io/crates/v/streamlib.svg)](https://crates.io/crates/streamlib)
 
 Streamlib is a meta-player for media streams. The streamlib CLI works against a curated [library](https://github.com/streamlib/library) of video and audio streams, and enables querying and playback through a standard media player, defaulting to [mpv](https://mpv.io/) which is the recommended player.
 
