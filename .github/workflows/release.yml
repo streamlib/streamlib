@@ -44,8 +44,11 @@ jobs:
       - name: Test
         run: cargo test --verbose
 
+      - name: Move Binary
+        run: cp target/release/${{ matrix.binary }} .
+
       - name: Upload
         uses: actions/upload-artifact@master
         with:
-          name: target/release/${{ matrix.binary }}
-          path: ${{ matrix.output }}
+          name: ${{ matrix.binary }}
+          path: ${{ matrix.binary }}
