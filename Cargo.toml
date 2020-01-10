@@ -1,7 +1,7 @@
 [package]
 name = "streamlib"
 description = "Play your favorite live streams from command line"
-version = "0.6.3"
+version = "0.6.4"
 authors = ["Yuval Adam <_@yuv.al>"]
 edition = "2018"
 license = "GPL-3.0"
