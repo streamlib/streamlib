@@ -1,7 +1,7 @@
 use std::io::{stdout, Write};
 use std::{thread, time};
 #[cfg(target_family = "unix")]
-use termion::{color, style, screen::*};
+use termion::{color, screen::*, style};
 
 use super::library::{Entry, Library};
 
@@ -26,9 +26,17 @@ impl Selector {
                 desc = format!(" - {}", desc);
             }
             #[cfg(target_family = "unix")]
-            println!("{}{}{}{}{}\n\t{}\n", color::Fg(color::Yellow), style::Bold, name, style::Reset, desc, e.url);
+            println!(
+                "{}{}{}{}{}\n\t{}\n",
+                color::Fg(color::Yellow),
+                style::Bold,
+                name,
+                style::Reset,
+                desc,
+                e.url
+            );
             #[cfg(target_family = "windows")]
-            println!("{}{}\n\t{}\n",name, desc, e.url);
+            println!("{}{}\n\t{}\n", name, desc, e.url);
         }
     }
 }

@@ -20,7 +20,7 @@ pub fn json_query(json: &serde_json::Value, query: &str) -> String {
     for item in items {
         res = match res.is_array() {
             true => &res.get(item.parse::<usize>().unwrap()).expect(&err),
-            false => &res.get(item).expect(&err)
+            false => &res.get(item).expect(&err),
         };
     }
     let s = res.as_str().unwrap();

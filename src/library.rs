@@ -3,8 +3,8 @@ extern crate serde;
 extern crate toml;
 
 use glob::glob;
-use std::collections::BTreeMap;
 use serde::Deserialize;
+use std::collections::BTreeMap;
 
 use super::utils;
 
@@ -24,7 +24,7 @@ pub struct Entry {
     pub tags: Option<Vec<String>>,
     pub http_headers: Option<Vec<String>>,
     pub query: Option<Vec<Query>>,
-    pub smil: Option<bool>
+    pub smil: Option<bool>,
 }
 
 impl Entry {
@@ -37,7 +37,7 @@ impl Entry {
             tags: None,
             http_headers: None,
             query: None,
-            smil: None
+            smil: None,
         }
     }
 }
@@ -45,16 +45,14 @@ impl Entry {
 pub type LibraryEntries = BTreeMap<String, Entry>;
 
 pub struct Library {
-    pub entries: Vec<Entry>
+    pub entries: Vec<Entry>,
 }
 
 impl Library {
     pub fn from_str(s: &str) -> Self {
         let entmap: LibraryEntries = toml::from_str(s).unwrap();
         let entries: Vec<Entry> = entmap.values().cloned().collect();
-        Library {
-            entries
-        }
+        Library { entries }
     }
 
     pub fn from_file(filename: &str) -> Self {
@@ -63,9 +61,7 @@ impl Library {
     }
 
     pub fn from_directory(dir: &str) -> Self {
-        let mut lib = Library {
-            entries: vec![]
-        };
+        let mut lib = Library { entries: vec![] };
 
         println!("Loading library directory {}", dir);
         let dirglob = format!("{}/**/*.toml", dir);
@@ -84,9 +80,18 @@ impl Library {
             .iter()
             .filter(|e| {
                 let n = e.name.clone().unwrap_or(String::new()).to_ascii_lowercase();
-                let d = e.description.clone().unwrap_or(String::new()).to_ascii_lowercase();
+                let d = e
+                    .description
+                    .clone()
+                    .unwrap_or(String::new())
+                    .to_ascii_lowercase();
                 let u = e.url.to_ascii_lowercase();
-                let t = e.tags.as_ref().unwrap_or(&vec![]).join(",").to_ascii_lowercase();
+                let t = e
+                    .tags
+                    .as_ref()
+                    .unwrap_or(&vec![])
+                    .join(",")
+                    .to_ascii_lowercase();
                 n.contains(q) || d.contains(q) || u.contains(q) || t.contains(q)
             })
             .cloned()
@@ -114,7 +119,10 @@ mod tests {
     fn test_struct_parse() {
         let lib = Library::from_str(TEST_LIB);
         assert_eq!(lib.entries[0].name, Some(String::from("Groove Salad")));
-        assert_eq!(lib.entries[1].url, String::from("http://somafm.com/secretagent.pls"));
+        assert_eq!(
+            lib.entries[1].url,
+            String::from("http://somafm.com/secretagent.pls")
+        );
     }
 
     #[test]

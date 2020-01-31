@@ -9,11 +9,10 @@ const LIBRARY_REPO: &str = "https://github.com/streamlib/library";
 
 pub struct Git {
     pub path: PathBuf,
-    pub repo: Option<git2::Repository>
+    pub repo: Option<git2::Repository>,
 }
 
 impl Git {
-
     pub fn new(force_update: bool) -> Self {
         let dirs = directories::ProjectDirs::from("", "", "streamlib").unwrap();
         let mut path = PathBuf::from(dirs.config_dir());
@@ -21,7 +20,7 @@ impl Git {
 
         let mut git = Git {
             path: path,
-            repo: None
+            repo: None,
         };
 
         git.init(force_update);
@@ -47,12 +46,10 @@ impl Git {
 
         self.repo = match git2::Repository::open(&self.path) {
             Ok(repo) => Some(repo),
-            Err(_e) => {
-                match git2::Repository::clone(LIBRARY_REPO, &self.path) {
-                    Ok(repo) => Some(repo),
-                    Err(e) => panic!("failed to open: {}", e),
-                }
-            }
+            Err(_e) => match git2::Repository::clone(LIBRARY_REPO, &self.path) {
+                Ok(repo) => Some(repo),
+                Err(e) => panic!("failed to open: {}", e),
+            },
         };
     }
 
@@ -79,7 +76,6 @@ impl Git {
         repo.reset(&obj, git2::ResetType::Hard, None)?;
         Ok(())
     }
-
 }
 
 #[cfg(test)]

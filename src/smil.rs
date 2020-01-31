@@ -1,7 +1,7 @@
 extern crate quick_xml;
 
-use quick_xml::Reader;
 use quick_xml::events::Event;
+use quick_xml::Reader;
 
 fn build_url(url: String, servers: Vec<String>) -> String {
     let parts: Vec<&str> = url.split("://").collect();
@@ -31,13 +31,19 @@ pub fn get_best_stream(url: &String) -> String {
         match reader.read_event(&mut buf) {
             Ok(Event::Start(ref e)) => match e.name() {
                 FEED_TAG_NAME => {
-                    feed = reader.read_text(FEED_TAG_NAME, &mut Vec::new()).expect("Cannot decode feed value");
+                    feed = reader
+                        .read_text(FEED_TAG_NAME, &mut Vec::new())
+                        .expect("Cannot decode feed value");
                 }
                 SERVER_TAG_NAME => {
-                    servers.push(reader.read_text(SERVER_TAG_NAME, &mut Vec::new()).expect("Cannot decode server value"));
+                    servers.push(
+                        reader
+                            .read_text(SERVER_TAG_NAME, &mut Vec::new())
+                            .expect("Cannot decode server value"),
+                    );
                 }
-                _ => ()
-            }
+                _ => (),
+            },
             Ok(Event::Eof) => break,
             Err(e) => panic!("Error at position {}: {:?}", reader.buffer_position(), e),
             _ => (),

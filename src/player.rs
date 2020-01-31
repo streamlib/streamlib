@@ -13,7 +13,7 @@ use super::utils::json_query;
 pub struct Player {
     player: String,
     entry: Entry,
-    debug: bool
+    debug: bool,
 }
 
 impl Player {
@@ -21,7 +21,7 @@ impl Player {
         Player {
             player: String::from(player),
             entry: entry,
-            debug: false
+            debug: false,
         }
     }
 
@@ -60,14 +60,15 @@ impl Player {
                 let restext = &res.text().unwrap();
                 let caps = re.captures(restext).unwrap();
                 val.push_str(caps.get(1).unwrap().as_str());
-            }
-            else if query.json.is_some() {
+            } else if query.json.is_some() {
                 let jsonval: serde_json::Value = res.json().expect("Invalid json data");
                 let finalval = json_query(&jsonval, &query.json.as_ref().unwrap());
                 val.push_str(finalval.as_str());
-            }
-            else {
-                println!("Query arg {} is missing a regex/json pattern and will probably fail...", query.name);
+            } else {
+                println!(
+                    "Query arg {} is missing a regex/json pattern and will probably fail...",
+                    query.name
+                );
             }
 
             args.insert(query.name.clone(), val);
@@ -87,8 +88,7 @@ impl Player {
         res.pop(); // remove the last ampersand
         if url.contains("?") {
             url.push_str("&");
-        }
-        else {
+        } else {
             url.push_str("?");
         }
         url.push_str(&res);
@@ -118,26 +118,24 @@ impl Player {
             match cmd(player, args).run() {
                 Ok(_) => {
                     println!("Player process terminated");
-                },
+                }
                 Err(e) => {
                     println!("Player {} not found, please install it or use a custom player with `-p playername` ({})", player, e);
                 }
             }
-        }
-        else {
+        } else {
             println!("Skipping actual stream play...");
             println!("{} {:?}", player, args);
         }
     }
 }
 
-
 #[cfg(test)]
 mod tests {
-    use std::collections::HashMap;
-    use super::Player;
     use super::super::library::Entry;
     use super::super::utils::json_query;
+    use super::Player;
+    use std::collections::HashMap;
 
     #[test]
     fn test_http_headers_args() {
@@ -146,9 +144,12 @@ mod tests {
         let p = Player {
             player: String::from("mpv"),
             entry: entry,
-            debug: false
+            debug: false,
         };
-        assert_eq!(p.build_args(), ["--http-header-fields", "A: b','C: d", "http://example.com/"]);
+        assert_eq!(
+            p.build_args(),
+            ["--http-header-fields", "A: b','C: d", "http://example.com/"]
+        );
     }
 
     #[test]
@@ -158,7 +159,7 @@ mod tests {
         let p = Player {
             player: String::from("cvlc"),
             entry: entry,
-            debug: false
+            debug: false,
         };
         assert_eq!(p.build_args().len(), 1); // just the url
     }
@@ -169,7 +170,7 @@ mod tests {
         let p = Player {
             player: String::from("mpv"),
             entry: entry,
-            debug: true
+            debug: true,
         };
         assert_eq!(p.build_args(), ["-v", "http://example.com/"]);
     }
@@ -180,7 +181,7 @@ mod tests {
         let mut p = Player {
             player: String::from("nonexistentplayer"),
             entry: entry,
-            debug: false
+            debug: false,
         };
         // will throw an error if not caught
         p.play(false);
@@ -199,7 +200,7 @@ mod tests {
         let p = Player {
             player: String::from("nonexistentplayer"),
             entry: entry,
-            debug: false
+            debug: false,
         };
         let mut args = HashMap::new();
         args.insert(String::from("abc"), String::from("def"));
@@ -214,7 +215,7 @@ mod tests {
         let p = Player {
             player: String::from("nonexistentplayer"),
             entry: entry,
-            debug: false
+            debug: false,
         };
         let mut args = HashMap::new();
         args.insert(String::from("abc"), String::from("def"));
