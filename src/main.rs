@@ -28,7 +28,10 @@ fn main() {
             Arg::with_name("gui")
                 .short("g")
                 .long("gui")
-                .help("Experimental Graphical Users Interface"),
+                .help("Experimental Graphical Users Interface"
+
+
+                ),
         )
         .arg(
             Arg::with_name("list")
