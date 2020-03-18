@@ -36,8 +36,8 @@ impl Player {
             let headers = self.entry.http_headers.as_ref().unwrap();
             if headers.len() > 0 && self.player == "mpv" {
                 // Headers are currently supported only with `mpv`
-                let hs = headers.join("','");
-                args.push(format!("--http-header-fields='{}'", hs));
+                let hs = headers.join(",");
+                args.push(format!("--http-header-fields={}", hs));
             }
         }
 
@@ -148,7 +148,7 @@ mod tests {
         };
         assert_eq!(
             p.build_args(),
-            ["--http-header-fields='A: b','C: d'", "http://example.com/"]
+            ["--http-header-fields=A: b,C: d", "http://example.com/"]
         );
     }
 
