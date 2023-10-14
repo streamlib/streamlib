@@ -51,7 +51,7 @@ impl Player {
         for query in queries {
             let url = query.url.as_str();
             println!("Fetching query arg {} from {}", query.name, url);
-            let mut res = reqwest::get(url).expect(format!("Error calling {}", url).as_str());
+            let res = reqwest::blocking::get(url).expect(format!("Error calling {}", url).as_str());
 
             let mut val = String::new();
 
@@ -189,7 +189,7 @@ mod tests {
 
     #[test]
     fn test_http() {
-        let resp: serde_json::Value = reqwest::get("https://mass.mako.co.il/ClicksStatistics/entitlementsServicesV2.jsp?et=ngt&lp=/hls/live/512033/CH2LIVE_HIGH/index.m3u8&rv=AKAMAI").unwrap().json().unwrap();
+        let resp: serde_json::Value = reqwest::blocking::get("https://mass.mako.co.il/ClicksStatistics/entitlementsServicesV2.jsp?et=ngt&lp=/hls/live/512033/CH2LIVE_HIGH/index.m3u8&rv=AKAMAI").unwrap().json().unwrap();
         let jq = "tickets.0.ticket";
         println!("{}", json_query(&resp, jq));
     }
